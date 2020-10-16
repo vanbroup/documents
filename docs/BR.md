@@ -1901,12 +1901,13 @@ i. __Certificate Field:__ `subject:organizationalUnitName` (OID: 2.5.4.11)
    __Prohibited__ if the `subject:organizationName` is absent.  
    __Contents:__ If present, the `subject:organizationalUnitName` the CA SHALL implement a process that prevents an OU attribute from including any text other than the following:
    
-   __i.__ Alphanumeric text preceded or followed by a whitespace and the word “department”, “division”, or “unit” (or the equivalent in a language other than English), or  
+   __i.__ Alphanumeric text preceded or followed by a whitespace and the word “department”, “division”, or “unit” (or the equivalent in a language other than English),  
    __ii.__ A commonly regonized name representing an organizational unit, selected from a publicly disclosed list of CA pre-approved values (disclosure SHALL be through an appropriate and readily accessible online means), or  
    __iii.__ A series of at least five numerals, optionally preceded or followed by two alphabetical characters, matching the regular expression: /^([A-Z]{2})?[0-9]{5,}$|^[0-9]{5,}([A-Z]{2})?$/.
    
+   The CA SHALL implement a process that prevents an OU attribute from including a name, DBA, tradename, trademark, address, location, or other text that refers to a specific natural person or Legal Entity unless the CA has verified this information in accordance with Section 3.2. The CA is not required to verify the accuracy of the information contained in the `subject:organizationalUnitName` attribute.
+
    When including the `subject:organizationalUnitName`, the CA is required to accurately describe which of the above methods it supports in the CA's Certificate Policy and/or Certification Practice Statement.
-   The CA is not required to verify the accuracy of the information contained in the `subject:organizationalUnitName` attribute beyond the formatting requirements described above.
 
 j. Other Subject Attributes
 Other attributes MAY be present within the subject field. If present, other attributes MUST contain information that has been verified by the CA.
