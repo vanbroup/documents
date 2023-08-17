@@ -44,3 +44,4 @@ BR-1.3.1-001, 1.3.1, EV, BR, This is an example requirement
 - Review the requirement matrix, do we need to add more information
 - Move TLS requirements from BR to TLS
 - Define a LoA (OV/EV or something new) for in addition to the document type.
+- Ensure that files are processed before subdirectories (e.g., a file starting with 001, before a subdirectory with 001)
