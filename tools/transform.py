@@ -48,7 +48,7 @@ for o in objects:
 # Parse the given document
 with open(args.document, 'r', encoding="utf8") as f:
     file = open(os.fsencode("000_{}.md".format(
-        abbreviation)), "a", encoding="utf8")
+        abbreviation)), "w", encoding="utf8")
 
     for line in f:
         if line.startswith("#"):
@@ -69,7 +69,7 @@ with open(args.document, 'r', encoding="utf8") as f:
 
                 # open file for writing
                 file = open(os.fsencode("000_{}_{}.md".format(
-                    abbreviation, title)), "a", encoding="utf8")
+                    abbreviation, title)), "w", encoding="utf8")
                 file.write(line)
                 continue
 
@@ -84,7 +84,7 @@ with open(args.document, 'r', encoding="utf8") as f:
                 # multiple sections in one directory
                 si = "-".join([str(item).zfill(3) for item in n[depth:]])
                 file = open(os.fsencode("{}_000_{}_{}.md".format(
-                    si, abbreviation, title)), "a", encoding="utf8")
+                    si, abbreviation, title)), "w", encoding="utf8")
                 file.write(line)
                 continue
 
@@ -114,10 +114,10 @@ with open(args.document, 'r', encoding="utf8") as f:
 
             # open file for writing
             file = open(os.fsencode("000_{}_{}.md".format(
-                abbreviation, title)), "a", encoding="utf8")
+                abbreviation, title)), "w", encoding="utf8")
             file.write(line)
 
-        elif line.startswith("No stipulation"):
+        elif line.strip().startswith("No stipulation"):
             # do not include no stipulation statements, these can automatically be generated
             # if none of the layers stipulate any requirements
             continue
