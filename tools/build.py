@@ -35,7 +35,7 @@ for f in files:
     if not f.name.__contains__("000_{}".format(target)):
         continue
 
-    elif f.resolve().__str__().__contains__("APPENDIX"):
+    elif f.resolve().__str__().find("APPENDIX"):
         continue
 
     # determine section
@@ -49,7 +49,7 @@ p = Path('../structured')
 files = sorted(p.rglob("*.md"))
 for f in files:
     # skip BR sections if the target type has a file that overrules
-    if f.name.__contains__("000_BR"):
+    if re.match("[0-9]{3}_BR", f.name):
         # determine section
         r = re.findall("([0-9]{3}) ", f.resolve().__str__())
         if r != None:
@@ -59,7 +59,7 @@ for f in files:
 
     # also skip all types that are not indicated
     # TODO: allow multiple types to handle combinations
-    elif not f.name.__contains__("000_{}".format(target)):
+    elif not f.name.__contains__("_{}".format(target)):
         continue
 
     rt = re.search("\_([A-Z]{2,8})(_|\.md)", f.name)
@@ -86,7 +86,7 @@ for f in files:
             # TODO: Handle/add "No stipulation"
 
             # Check if this line defines a requirement
-            r = re.fullmatch("\[([0-9]{3})\]\s([^$]+)", line)
+            r = re.fullmatch("\s+\[([0-9]{3})\]\s([^$]+)", line)
             if r != None:
                 print(
                     "***************** Identified requirement in {}:\n\t{}".format(f.name, line))
@@ -95,7 +95,5 @@ for f in files:
 
                 # TODO: How do we handle requirements applicable to multiple levels of assurance or to multiple certificate types (e.g., DNS names, E-Mail addresses), for organization validation we include this in the LoA
                 # TODO: Do we want to include the main chapter (e.g., Introduction) and section (e.g., Revisions) to give a better context?
-                req.writerow([id, section, '', type, r.group(2)])
+                req.writerow([id, section, '', type, r.group(2).strip()])
 
-        # if len(last_line) > 1:
-        #     out.write("\n")
