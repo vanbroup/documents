@@ -1,3 +1,9 @@
 docs/BR.md	@cabforum/servercert-chairs
 docs/EVG.md	@cabforum/servercert-chairs
 docs/NSR.md	@cabforum/servercert-chairs
+
+structured/**_BR* @cabforum/servercert-chairs
+structured/**_EVG* @cabforum/servercert-chairs
+structured/**_CS* @cabforum/codesigning-chairs
+structured/**_SMIME* @cabforum/smime-chairs
+structured/**_NS* @cabforum/netsec-chairs
