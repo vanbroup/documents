@@ -10,7 +10,7 @@ copyright: |
   This work is licensed under the Creative Commons Attribution 4.0 International license.
 ---
 
-# 1.  INTRODUCTION
+# 1. INTRODUCTION
 
 ## 1.1 Overview
 
@@ -490,11 +490,11 @@ As a general rule, the CA is responsible for taking all verification steps reaso
 
 Roles are specified in EV Guidelines Section 10.1.2.
 
-##### 3.2.2.2.1 Verification of Applicant's Legal Existence and Identity 
+##### 3.2.2.2.1 Verification of Applicant's Legal Existence and Identity
 
 As specified in EV Guidelines Section 11.2.
 
-##### 3.2.2.2.2 Verification of Applicant's Legal Existence and Identity -- Assumed Name 
+##### 3.2.2.2.2 Verification of Applicant's Legal Existence and Identity -- Assumed Name
 
 As specified in EV Guidelines Section 11.3.
 
@@ -510,11 +510,11 @@ As specified in EV Guidelines Section 11.5.
 
 As specified in EV Guidelines Section 11.6.
 
-##### 3.2.2.2.6 Verification of Applicant's Domain Name 
+##### 3.2.2.2.6 Verification of Applicant's Domain Name
 
 Code Signing Certificates SHALL NOT include a Domain Name.
 
-##### 3.2.2.2.7 Verification of Name, Title, and Authority of Contract Signer and Certificate Approver 
+##### 3.2.2.2.7 Verification of Name, Title, and Authority of Contract Signer and Certificate Approver
 
 As specified in EV Guidelines Section 11.8.
 
@@ -522,11 +522,11 @@ As specified in EV Guidelines Section 11.8.
 
 As specified in EV Guidelines Section 11.9.
 
-##### 3.2.2.2.9 Verification of Approval of EV Code Signing Certificate Request 
+##### 3.2.2.2.9 Verification of Approval of EV Code Signing Certificate Request
 
 As specified in EV Guidelines Section 11.10.
 
-##### 3.2.2.2.10 Verification of Certain Information Sources 
+##### 3.2.2.2.10 Verification of Certain Information Sources
 
 As specified in EV Guidelines Section 11.11.
 
@@ -673,7 +673,7 @@ Databases maintained by the CA, its owner, or its affiliated companies do not qu
 
 ## 3.4 Identification and authentication for revocation request
 
-# 4.  CERTIFICATE LIFE-CYCLE OPERATIONAL REQUIREMENTS
+# 4. CERTIFICATE LIFE-CYCLE OPERATIONAL REQUIREMENTS
 
 ## 4.1 Certificate Application
 
@@ -861,9 +861,9 @@ The CA MAY delay revocation based on a request from Application Software Supplie
 **Note:** Nothing herein prohibits a CA from revoking a Code Signing Certificate prior to these time frames.
  
 #### 4.9.1.2 Reasons for Revoking a Subordinate CA Certificate
- 
+
 The Issuing CA SHALL revoke a Subordinate CA Certificate within seven (7) days if one or more of the following occurs:
- 
+
 1. The Subordinate CA requests revocation in writing;
 2. The Subordinate CA notifies the Issuing CA that the original certificate request was not authorized and does not retroactively grant authorization;
 3. The Issuing CA obtains evidence that the Subordinate CA's Private Key corresponding to the Public Key in the Certificate suffered a Key Compromise or no longer complies with the requirements of [Section 6.1.5](#615-key-sizes) and [Section 6.1.6](#616-public-key-parameters-generation-and-quality-checking);
@@ -873,7 +873,6 @@ The Issuing CA SHALL revoke a Subordinate CA Certificate within seven (7) days i
 7. The Issuing CA or Subordinate CA ceases operations for any reason and has not made arrangements for another CA to provide revocation support for the Certificate;
 8. The Issuing CA's or Subordinate CA's right to issue Certificates under these Requirements expires or is revoked or terminated, unless the Issuing CA has made arrangements to continue maintaining the CRL/OCSP Repository; or
 9. Revocation is required by the Issuing CA's Certificate Policy and/or Certification Practice Statement.
- 
 
 ### 4.9.2 Who can request revocation
 
@@ -886,6 +885,7 @@ The CA SHALL provide a process for Subscribers to request revocation of their ow
 The CA SHALL provide Subscribers, Relying Parties, Application Software Suppliers, and other third parties with clear instructions for reporting suspected Private Key Compromise, Certificate misuse, or other types of fraud, compromise, misuse, inappropriate conduct, or any other matter related to Certificates. The CA SHALL publicly disclose the instructions through a readily accessible online means and in Section 1.5.2 of their CPS.
 
 ### 4.9.4 Revocation request grace period
+
 
 ### 4.9.5 Time within which CA must process the revocation request
 
@@ -931,7 +931,7 @@ OCSP responses MUST conform to RFC6960 and/or RFC5019. OCSP responses MUST eithe
 
 1. Be signed by the CA that issued the Certificates whose revocation status is being checked, or
 2. Be signed by an OCSP Responder whose Certificate is signed by the CA that issued the Certificate whose
-   revocation status is being checked.
+revocation status is being checked.
 
 In the latter case, the OCSP signing Certificate MUST contain an extension of type `id-pkix-ocsp-nocheck`, as
 defined by RFC6960.
@@ -1224,7 +1224,6 @@ Additionally, the CA's security program MUST include an annual risk assessment t
 The CA and each Delegated Third Party SHALL archive all audit logs (as set forth in [Section 5.4.1](#541-types-of-events-recorded)).
 
 Additionally, the CA and each Delegated Third Party SHALL archive:
-
 1. Documentation related to the security of their Certificate Systems, Certificate Management Systems, Root CA Systems, and Delegated Third Party Systems; and
 2. Documentation related to their verification, issuance, and revocation of certificate requests and Certificates.
 
@@ -1233,12 +1232,10 @@ Additionally, the CA and each Delegated Third Party SHALL archive:
 Archived audit logs (as set forth in [Section 5.5.1](#551-types-of-records-archived) SHALL be retained for a period of at least two (2) years from their record creation timestamp, or as long as they are required to be retained per [Section 5.4.3](#543-retention-period-for-audit-log), whichever is longer.
 
 Additionally, the CA and each Delegated Third Party SHALL retain, for at least two (2) years:
-
 1. All archived documentation related to the security of Certificate Systems, Certificate Management Systems, Root CA Systems and Delegated Third Party Systems (as set forth in [Section 5.5.1](#551-types-of-records-archived)); and
 2. All archived documentation relating to the verification, issuance, and revocation of certificate requests and Certificates (as set forth in [Section 5.5.1](#551-types-of-records-archived)) after the later occurrence of:
-   
-    1. such records and documentation were last relied upon in the verification, issuance, or revocation of certificate requests and Certificates; or
-    2. the expiration of the Subscriber Certificates relying upon such records and documentation.
+   1. such records and documentation were last relied upon in the verification, issuance, or revocation of certificate requests and Certificates; or
+   2. the expiration of the Subscriber Certificates relying upon such records and documentation.
 
 Note: While these Requirements set the minimum retention period, the CA MAY choose a greater value as more appropriate in order to be able to investigate possible security or other types of incidents that will require retrospection and examination of past records archived.
 
@@ -1290,7 +1287,7 @@ The business continuity plan MUST include:
 
 If the CA wishes to stop supporting validation of Code Signing Certificates or Timestamp Certificates prior to the date specified in its Certificate Policy/Certificate Practice Statement, the CA MUST give 90 days' prior notice to all Application Software Suppliers relying on the root certificate and permit the Application Software Suppliers sufficient time to take appropriate action as determined by the Application Software Supplier.
 
-# 6.  TECHNICAL SECURITY CONTROLS
+# 6. TECHNICAL SECURITY CONTROLS
 
 ## 6.1 Key pair generation and installation
 
@@ -1300,8 +1297,8 @@ If the CA wishes to stop supporting validation of Code Signing Certificates or T
 
 For CA Key Pairs that are either
 
-i. used as a CA Key Pair for a Root Certificate or
-ii. used as a CA Key Pair for a Subordinate CA Certificate, where the Subordinate CA is not the operator of the Root CA or an Affiliate of the Root CA,
+  i. used as a CA Key Pair for a Root Certificate or
+  ii. used as a CA Key Pair for a Subordinate CA Certificate, where the Subordinate CA is not the operator of the Root CA or an Affiliate of the Root CA,
 
 the CA SHALL:
 
@@ -1386,15 +1383,6 @@ Private Keys corresponding to Root Certificates MUST NOT be used to sign Certifi
 4.  Certificates for OCSP Response verification; and
 5.  Signatures for OCSP Responses.
 
-### 6.1.7 Key usage purposes (as per X.509 v3 key usage field)
-
-Private Keys corresponding to Root Certificates MUST NOT be used to sign Certificates except in the following cases:
-
-1. Self-signed Certificates to represent the Root CA itself;
-2. Certificates for Subordinate CAs and Cross Certificates;
-3. Certificates for infrastructure purposes (administrative role certificates, internal CA operational device certificates); and
-4. Certificates for OCSP Response verification.
-
 ## 6.2 Private Key Protection and Cryptographic Module Engineering Controls
 
 The CA SHALL implement physical and logical safeguards to prevent unauthorized certificate issuance. Protection of the CA Private Key outside the validated system or device specified above MUST consist of physical security, encryption, or a combination of both, implemented in a manner that prevents disclosure of the Private Key. The CA SHALL encrypt its Private Key with an algorithm and key-length that, according to the state of the art, are capable of withstanding cryptanalytic attacks for the residual life of the encrypted key or key part.
@@ -1444,7 +1432,7 @@ Techniques that MAY be used to satisfy this requirement include:
 3.	 A Hardware Crypto Module provided by the CA;
 4.	 Contractual terms in the Subscriber Agreement requiring the Subscriber to protect the Private Key to a standard of at least FIPS 140-2 level 2 or Common Criteria EAL 4+ and with compliance being confirmed by means of an audit.
 
-#### 6.2.7.4 Subscriber Private Key protection and verification 
+#### 6.2.7.4 Subscriber Private Key protection and verification
 
 ##### 6.2.7.4.1 Subscriber Private Key protection
 
@@ -1540,7 +1528,7 @@ The Timestamp Authority MUST ensure that clock synchronization is maintained whe
 
 The digest algorithm used to sign Timestamp tokens must match the digest algorithm used to sign the Timestamp Certificate.
 
-# 7.  CERTIFICATE, CRL, AND OCSP PROFILES
+# 7. CERTIFICATE, CRL, AND OCSP PROFILES
 
 ## 7.1 Certificate profile
 
@@ -1904,7 +1892,7 @@ indicate the Subordinate CA’s compliance with these Requirements, and
 
 A Subordinate CA MUST represent, in its Certificate Policy and/or Certification Practice Statement, that all Certificates containing a policy identifier indicating compliance with these Requirements are issued and managed in accordance with these Requirements.
 
-####  7.1.6.4  Subscriber Certificates
+#### 7.1.6.4 Subscriber Certificates
 
 A Certificate issued to a Subscriber MUST contain one or more policy identifier(s), defined by the CA, in the Certificate's certificatePolicies extension that indicates adherence to and compliance with these Requirements. CAs complying with these Requirements MAY also assert the reserved policy OIDs in such Certificates.
 
@@ -2088,6 +2076,7 @@ The Certificate warranties specifically include, but are not limited to the foll
 
 ### 9.6.2 RA representations and warranties
 
+
 ### 9.6.3 Subscriber representations and warranties
 
 The CA or Signing Service MUST require, as part of the Subscriber Agreement, that the Applicant make the commitments and warranties set forth in this section, as applicable, for the benefit of the CA and the Certificate Beneficiaries.
@@ -2177,7 +2166,8 @@ If a court or government body with jurisdiction over the activities covered by t
 
 ## 9.17 Other provisions
 
-# Appendix A  High risk regions of concern
+
+# Appendix A High risk regions of concern
 
 The geographic locations listed below have more than 5% of the Code Signing Certificates for that location associated with signed Suspect Code when compared to the number of all Code Signing Certificates for that area. Applications originating or associated from one of these HRRCs are considered high risk and require additional verification as specified under [Section 4.2.2](#422-approval-or-rejection-of-certificate-applications) of this document:
 

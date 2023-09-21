@@ -48,6 +48,13 @@ py build.py CS
 py build.py SMIME
 ```
 
+Build documents and requirement sheets including only the following Level of Assurance (LoA):
+
+```sh
+py build.py BR --loa OV
+py build.py BR --loa DV OV EV
+```
+
 ## Requirements
 
 In each document you can specify a requirement, this would work following:
@@ -61,6 +68,58 @@ This requirement will be extracted an included in the matrix as:
 ```csv
 "ID","Section","LoA","Type","Requirement"
 BR-1.3.1-001, 1.3.1, EV, BR, This is an example requirement
+```
+
+## Frontmatter
+
+When building the target document, frontmatter information is considered, the frontmatter itself is not included in the output except for the main 000_XXX.md files.
+
+Currently the following options can be configured.
+
+### Level of Assurance (LoA)
+
+The system is currently recognizing the following levels of assurance:
+
+1. DV
+2. OV
+3. EV
+
+The LoA of a specific section can be indicated within the frontmatter of the document:
+
+```md
+---
+loa: DV
+---
+
+Content here
+```
+
+It's assumed that OV requirements build on top of the DV requirements, and EV of DV and OV, etc. This is however currently not enforced by the build system. Meaning that you will need to specify DV, OV, EV if you want to include requirements for all three.
+
+### Including and excluding specific targets
+
+With the following frontmatter the file will be ignored when building the SMIME documents.
+
+```md
+---
+targets:
+    excluded:
+        - SMIME
+---
+
+Content here
+```
+
+To only include this file in the SMIME documents, the following frontmatter can be used to only include this file in the SMIME documents.
+
+```md
+---
+targets:
+    included:
+        - SMIME
+---
+
+Content here
 ```
 
 ## Duplicate sections
@@ -427,5 +486,4 @@ The following sections have been identified as equal, the corresponding CS and S
 - Review the requirement matrix, do we need to add more information.
 - Move TLS requirements from BR to TLS to ensure that they are not included in CS or SMIME requirements.
 - Define a LoA (OV/EV or something new) for in addition to the document type.
-- Ensure that files are processed before subdirectories (e.g., a file starting with 001, before a subdirectory with 001).
 - Create an option to create a CSV file with all requirements for all document types.

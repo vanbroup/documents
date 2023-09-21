@@ -395,7 +395,7 @@ The Definitions found in the [CA/Browser Forum's Network and Certificate System 
 
 **Validity Period**: From [RFC 5280](http://tools.ietf.org/html/rfc5280): "The period of time from notBefore through notAfter, inclusive."
 
-###  1.6.2 Acronyms
+### 1.6.2 Acronyms
 
 |Acronym   |Meaning                                                            |
 |----------|-------------------------------------------------------------------|
@@ -419,7 +419,7 @@ The Definitions found in the [CA/Browser Forum's Network and Certificate System 
 |S/MIME  |Secure MIME (Multipurpose Internet Mail Extensions) |
 |TLS	   |Transport Layer Security |
 
-###  1.6.3 References
+### 1.6.3 References
 
 ETSI EN 319 403, Electronic Signatures and Infrastructures (ESI); Trust Service Provider Conformity Assessment - Requirements for conformity assessment bodies assessing Trust Service Providers.
 
@@ -481,7 +481,7 @@ WebTrust for Certification Authorities, CPA Canada.
 
 X.509, Recommendation ITU-T X.509 (10/2012) \| ISO/IEC 9594-8:2014 (E), Information technology – Open Systems Interconnection – The Directory: Public-key and attribute certificate frameworks.
 
-###  1.6.4 Conventions
+### 1.6.4 Conventions
 
 The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” in these Requirements shall be interpreted in accordance with [RFC 2119](http://tools.ietf.org/html/rfc2119).
 
@@ -512,8 +512,6 @@ The CA SHALL make its Repository publicly available in a read-only manner.
 # 3. IDENTIFICATION AND AUTHENTICATION
 
 ## 3.1 Naming
-
- No stipulation.
 
 ### 3.1.1 Types of names
 
@@ -560,9 +558,7 @@ The CA MAY use geographic endonyms and exonyms in the `subject:localityName` and
 
 ### 3.1.5 Uniqueness of names
 
-
 ### 3.1.6 Recognition, authentication, and role of trademarks
-
 
 ## 3.2 Initial identity validation
 
@@ -576,7 +572,6 @@ The CA SHALL authenticate the identity attributes of the Subject and their contr
 | `Individual-validated` | [Section 3.2.2](#322-validation-of-mailbox-authorization-or-control) | NA | [Section 3.2.4](#324-authentication-of-individual-identity) | 
 
 ### 3.2.1 Method to prove possession of private key
-
 
 ### 3.2.2 Validation of mailbox authorization or control
 
@@ -907,12 +902,9 @@ An Attestation SHALL include a copy of documentation supporting the fact to be a
 
 ### 3.3.1 Identification and authentication for routine re-key
 
-
 ### 3.3.2 Identification and authentication for re-key after revocation
 
-
 ## 3.4 Identification and authentication for revocation request
-
 
 # 4. CERTIFICATE LIFE-CYCLE OPERATIONAL REQUIREMENTS
 
@@ -971,7 +963,6 @@ A prior validation SHALL NOT be reused if any data or document used in the prior
 
 
 ## 4.3 Certificate issuance
-
 
 ### 4.3.1 CA actions during certificate issuance
 
@@ -1272,29 +1263,21 @@ Based on the Risk Assessment, the CA SHALL develop, implement, and maintain a se
 
 ### 5.1.2 Physical access
 
-
 ### 5.1.3 Power and air conditioning
-
 
 ### 5.1.4 Water exposures
 
-
 ### 5.1.5 Fire prevention and protection
-
 
 ### 5.1.6 Media storage
 
-
 ### 5.1.7 Waste disposal
 
-
 ### 5.1.8 Off-site backup
-
 
 ## 5.2 Procedural controls
 
 ### 5.2.1 Trusted roles
-
 
 ### 5.2.2 Number of persons required per task
 
@@ -1302,9 +1285,7 @@ The CA Private Key SHALL be backed up, stored, and recovered only by personnel i
 
 ### 5.2.3 Identification and authentication for each role
 
-
 ### 5.2.4 Roles requiring separation of duties
-
 
 ## 5.3 Personnel controls
 
@@ -1313,7 +1294,6 @@ The CA Private Key SHALL be backed up, stored, and recovered only by personnel i
 Prior to the engagement of any person in the Certificate Management Process, whether as an employee, agent, or an independent contractor of the CA, the CA SHALL verify the identity and trustworthiness of such person.
 
 ### 5.3.2 Background check procedures
-
 
 ### 5.3.3 Training requirements
 
@@ -1331,16 +1311,13 @@ All personnel in Trusted roles SHALL maintain skill levels consistent with the C
 
 ### 5.3.5 Job rotation frequency and sequence
 
-
 ### 5.3.6 Sanctions for unauthorized actions
-
 
 ### 5.3.7 Independent contractor requirements
 
 The CA SHALL verify that the Delegated Third Party's personnel involved in the issuance of a Certificate meet the training and skills requirements of [Section 5.3.3](#533-training-requirements) and the document retention and event logging requirements of [Section 5.4.1](#541-types-of-events-recorded).
 
 ### 5.3.8 Documentation supplied to personnel
-
 
 ## 5.4 Audit logging procedures
 
@@ -1384,7 +1361,6 @@ Log records SHALL include the following elements:
 
 ### 5.4.2 Frequency of processing audit log
 
-
 ### 5.4.3 Retention period for audit log
 
 The CA and each Delegated Third Party SHALL retain, for at least two (2) years:
@@ -1399,15 +1375,11 @@ The CA and each Delegated Third Party SHALL retain, for at least two (2) years:
 
 ### 5.4.4 Protection of audit log
 
-
 ### 5.4.5 Audit log backup procedures
-
 
 ### 5.4.6 Audit collection System (internal vs. external)
 
-
 ### 5.4.7 Notification to event-causing subject
-
 
 ### 5.4.8 Vulnerability assessments
 
@@ -1443,21 +1415,15 @@ Additionally, the CA and each Delegated Third Party SHALL retain, for at least t
 
 ### 5.5.3 Protection of archive
 
-
 ### 5.5.4 Archive backup procedures
-
 
 ### 5.5.5 Requirements for time-stamping of records
 
-
 ### 5.5.6 Archive collection system (internal or external)
-
 
 ### 5.5.7 Procedures to obtain and verify archive information
 
-
 ## 5.6 Key changeover
-
 
 ## 5.7 Compromise and disaster recovery
 
@@ -1493,9 +1459,7 @@ The business continuity plan SHALL include:
 
 ### 5.7.4 Business continuity capabilities after a disaster
 
-
 ## 5.8 CA or RA termination
-
 
 # 6. TECHNICAL SECURITY CONTROLS
 
@@ -1556,9 +1520,7 @@ The material used to activate/protect the Private Key (e.g., a password used to 
 
 ### 6.1.3 Public key delivery to certificate issuer
 
-
 ### 6.1.4 CA public key delivery to relying parties
-
 
 ### 6.1.5 Key sizes
 
@@ -1594,27 +1556,15 @@ Private Keys corresponding to Root CA Certificates SHALL NOT be used to sign Cer
 3. Certificates for infrastructure purposes (administrative role certificates, internal CA operational device certificates); and
 4. Certificates for OCSP Response verification.
 
-### 6.1.7 Key usage purposes (as per X.509 v3 key usage field)
-
-Private Keys corresponding to Root Certificates MUST NOT be used to sign Certificates except in the following cases:
-
-1. Self-signed Certificates to represent the Root CA itself;
-2. Certificates for Subordinate CAs and Cross Certificates;
-3. Certificates for infrastructure purposes (administrative role certificates, internal CA operational device certificates); and
-4. Certificates for OCSP Response verification.
-
 ## 6.2 Private key protection and cryptographic module engineering controls
 
 The CA SHALL implement physical and logical safeguards to prevent unauthorized Certificate issuance. Protection of the CA Private Key outside the validated system or device specified above SHALL consist of physical security, encryption, or a combination of both, implemented in a manner that prevents disclosure of the Private Key. The CA SHALL encrypt its Private Key with an algorithm and key-length that, according to the state of the art, are capable of withstanding cryptanalytic attacks for the residual life of the encrypted key or key part.
 
 ### 6.2.1 Cryptographic module standards and controls
 
-
 ### 6.2.2 Private key (n out of m) multi-person control
 
-
 ### 6.2.3 Private key escrow
-
 
 ### 6.2.4 Private key backup
 
@@ -1648,7 +1598,6 @@ The CA SHALL protect its Private Key in a system or device that has been validat
 
 ### 6.3.1 Public key archival
 
-
 ### 6.3.2 Certificate operational periods and key pair usage periods
 
 | Generation | Maximum Validity Period      | 
@@ -1662,12 +1611,9 @@ For the purpose of calculations, a day is measured as 86,400 seconds. Any amount
 
 ### 6.4.1 Activation data generation and installation
 
-
 ### 6.4.2 Activation data protection
 
-
 ### 6.4.3 Other aspects of activation data
-
 
 ## 6.5 Computer security controls
 
@@ -1677,24 +1623,19 @@ The CA SHALL enforce multi-factor authentication for all accounts capable of dir
 
 ### 6.5.2 Computer security rating
 
-
 ## 6.6 Life cycle technical controls
 
 ### 6.6.1 System development controls
 
-
 ### 6.6.2 Security management controls
 
-
 ### 6.6.3 Life cycle security controls
-
 
 ## 6.7 Network security controls
 
 The CA/Browser Forum's Network and Certificate System Security Requirements are incorporated by reference as if fully set forth herein.
 
 ## 6.8 Time-stamping
-
 
 # 7. CERTIFICATE, CRL, AND OCSP PROFILES
 
@@ -2352,14 +2293,12 @@ The Certificate MAY also contain additional policy identifier(s) defined by the 
 
 ### 7.1.8 Policy qualifiers syntax and semantics
 
-
 ### 7.1.9 Processing semantics for the critical certificate policies extension
 
 
 ## 7.2 CRL profile
 
 ### 7.2.1 Version number(s)
-
 
 ### 7.2.2 CRL and CRL entry extensions
 
@@ -2382,7 +2321,6 @@ If an OCSP response is for a Root CA or Subordinate CA Certificate, including Cr
 The `CRLReason` indicated SHALL contain a value permitted for CRLs, as specified in [Section 7.2.2](#722-crl-and-crl-entry-extensions).
 
 ### 7.3.1 Version number(s)
-
 
 ### 7.3.2 OCSP extensions
 
@@ -2423,7 +2361,6 @@ The CA's audit SHALL be performed by a Qualified Auditor. A Qualified Auditor me
    
 ## 8.3 Assessor's relationship to assessed entity
 
-
 ## 8.4 Topics covered by assessment
 
 The CA SHALL undergo an audit in accordance with one of the following schemes:
@@ -2443,7 +2380,6 @@ For Delegated Third Parties that are not Enterprise RAs, then the CA SHALL obtai
 The audit period for the Delegated Third Party SHALL NOT exceed one year (ideally aligned with the CA's audit). 
 
 ## 8.5 Actions taken as a result of deficiency
-
 
 ## 8.6 Communication of results
 
@@ -2473,7 +2409,7 @@ The Audit Report SHALL be available as a PDF, and SHALL be text searchable for a
 
 During the period in which the CA issues Certificates, the CA SHALL monitor adherence to its CP and/or CPS and these Requirements and control its service quality by performing self audits on at least a quarterly basis against a randomly selected sample including a minimum of the greater of thirty (30) Certificates or three percent (3%) of the Certificates issued by it during the period commencing immediately after the previous self-audit sample was taken. 
 
-## 8.8 Review of delegated parties 
+## 8.8 Review of delegated parties
 
 Except for Delegated Third Parties, Enterprise RAs, and Technically Constrained Subordinate CAs that undergo an annual audit that meets the criteria specified in [Section 8.4](#84-topics-covered-by-assessment), the CA SHALL ensure the practices and procedures of delegated parties are in compliance with these Requirements and the relevant CP and/or CPS. The CA shall document the obligations of delegated parties and perform monitoring on at least an annual basis of the delegated parties' adherence with those obligations.
 
@@ -2483,40 +2419,29 @@ Except for Delegated Third Parties, Enterprise RAs, and Technically Constrained 
 
 ### 9.1.1 Certificate issuance or renewal fees
 
-
 ### 9.1.2 Certificate access fees
-
 
 ### 9.1.3 Revocation or status information access fees
 
-
 ### 9.1.4 Fees for other services
 
-
 ### 9.1.5 Refund policy
-
 
 ## 9.2 Financial responsibility
 
 ### 9.2.1 Insurance coverage
 
-
 ### 9.2.2 Other assets
 
-
 ### 9.2.3 Insurance or warranty coverage for end-entities
-
 
 ## 9.3 Confidentiality of business information
 
 ### 9.3.1 Scope of confidential information
 
-
 ### 9.3.2 Information not within the scope of confidential information
 
-
 ### 9.3.3 Responsibility to protect confidential information
-
 
 ## 9.4 Privacy of personal information
 
@@ -2530,7 +2455,6 @@ The CA or RA SHALL treat all personal information about an Individual that is no
 
 ### 9.4.3 Information not deemed private
 
-
 ### 9.4.4 Responsibility to protect private information
 
 The CA or RA SHALL protect private information using appropriate safeguards and a reasonable degree of care. The CA or RA SHALL require the same from any service providers who handle private information on behalf of the CA or RA.
@@ -2541,12 +2465,9 @@ The CA or RA shall provide appropriate notices to, and receive the necessary con
 
 ### 9.4.6 Disclosure pursuant to judicial or administrative process
 
-
 ### 9.4.7 Other information disclosure circumstances
 
-
 ## 9.5 Intellectual property rights
-
 
 ## 9.6 Representations and warranties
 
@@ -2614,12 +2535,9 @@ The Subscriber Agreement or Terms of Use SHALL contain provisions imposing on th
 
 ### 9.6.4 Relying party representations and warranties
 
-
 ### 9.6.5 Representations and warranties of other participants
 
-
 ## 9.7 Disclaimers of warranties
-
 
 ## 9.8 Limitations of liability
 
@@ -2635,32 +2553,23 @@ Notwithstanding any limitations on its liability to Subscribers and Relying Part
 
 ### 9.10.1 Term
 
-
 ### 9.10.2 Termination
-
 
 ### 9.10.3 Effect of termination and survival
 
-
 ## 9.11 Individual notices and communications with participants
-
 
 ## 9.12 Amendments
 
 ### 9.12.1 Procedure for amendment
 
-
 ### 9.12.2 Notification mechanism and period
-
 
 ### 9.12.3 Circumstances under which OID must be changed
 
-
 ## 9.13 Dispute resolution provisions
 
-
 ## 9.14 Governing law
-
 
 ## 9.15 Compliance with applicable law
 
@@ -2669,9 +2578,7 @@ Notwithstanding any limitations on its liability to Subscribers and Relying Part
 
 ### 9.16.1 Entire agreement
 
-
 ### 9.16.2 Assignment
-
 
 ### 9.16.3 Severability
 
@@ -2683,23 +2590,16 @@ Any modification to CA practice enabled under this section SHALL be discontinued
 
 ### 9.16.4 Enforcement (attorneys' fees and waiver of rights)
 
-
 ### 9.16.5 Force majeure
 
 
 ## 9.17 Other provisions
 
- No stipulation.
 
 # Appendix A - Registration schemes
 
-# Appendix B - Transition of Extant S/MIME CAs
 
-Following the Effective Date for v 1.0.0 of these Requirements (September 1, 2023) an Extant S/MIME CA MAY continue to issue end entity S/MIME Certificates that are compliant with these Requirements. 
-
-On or after September 15, 2024, all newly-issued Publicly-Trusted end entity S/MIME Certificates SHALL be issued from S/MIME Subordinate CAs that are compliant with these Requirements.
-
-For backwards compatibility, Extant S/MIME CA Certificates that share the same Public Keys with S/MIME Subordinate CAs that are compliant with these Requirements, or are no longer used for signing end entity S/MIME Certificates, are not required to be revoked.## A.1 organizationIdentifier
+## A.1 organizationIdentifier
 
 The following Registration Schemes are recognized as valid under these Requirements for use in the `subject:organizationIdentifier` attribute described in [Section 7.1.4.2.2](#71422-subject-distinguished-name-fields).
 
@@ -2713,6 +2613,7 @@ The country code used in the Registration Scheme identifier SHALL match that of 
 
 * **LEI**: For a Legal Entity Identifier as specified in ISO 17442 for the entity named in the `subject:organizationName`. The 2 character ISO 3166 country code SHALL be set to 'XG'. 
 
+
 ## A.2 Natural Person Identifier
 
 The following Registration Schemes are recognized as valid for use in the `subject:serialNumber` attribute described in [Section 7.1.4.2.2](#71422-subject-distinguished-name-fields).
@@ -2725,3 +2626,11 @@ The following Registration Schemes are recognized as valid for use in the `subje
 
 * **TIN**: For an identifier based on Tax Identification Number issued to the Subject Individual. 
 
+
+# Appendix B - Transition of Extant S/MIME CAs
+
+Following the Effective Date for v 1.0.0 of these Requirements (September 1, 2023) an Extant S/MIME CA MAY continue to issue end entity S/MIME Certificates that are compliant with these Requirements. 
+
+On or after September 15, 2024, all newly-issued Publicly-Trusted end entity S/MIME Certificates SHALL be issued from S/MIME Subordinate CAs that are compliant with these Requirements.
+
+For backwards compatibility, Extant S/MIME CA Certificates that share the same Public Keys with S/MIME Subordinate CAs that are compliant with these Requirements, or are no longer used for signing end entity S/MIME Certificates, are not required to be revoked.

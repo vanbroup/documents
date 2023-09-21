@@ -29,8 +29,6 @@ These Requirements do not address the issuance, or management of Certificates by
 
 These Requirements are applicable to all Certification Authorities within a chain of trust. They are to be flowed down from the Root Certification Authority through successive Subordinate Certification Authorities.
 
-    [001] An example requirement
-
 ## 1.2 Document name and identification
 
 This certificate policy (CP) contains the requirements for the issuance and management of publicly-trusted SSL certificates, as adopted by the CA/Browser Forum.
@@ -2520,9 +2518,59 @@ Any modification to CA practice enabled under this section MUST be discontinued 
 
 ## 9.17 Other provisions
 
+
 # APPENDIX A – CAA Contact Tag
 
 These methods allow domain owners to publish contact information in DNS for the purpose of validating domain control.
+
+
+## A.1. CAA Methods
+
+
+### A.1.1. CAA contactemail Property
+
+SYNTAX: `contactemail <rfc6532emailaddress>`
+
+The CAA contactemail property takes an email address as its parameter. The entire parameter value MUST be a valid email address as defined in RFC 6532, Section 3.2, with no additional padding or structure, or it cannot be used.
+
+The following is an example where the holder of the domain specified the contact property using an email address.
+
+```DNS Zone
+$ORIGIN example.com.
+               CAA 0 contactemail "domainowner@example.com"
+```
+
+The contactemail property MAY be critical, if the domain owner does not want CAs who do not understand it to issue certificates for the domain.
+
+
+### A.1.2. CAA contactphone Property
+
+SYNTAX: `contactphone <rfc3966 Global Number>`
+
+The CAA contactphone property takes a phone number as its parameter. The entire parameter value MUST be a valid Global Number as defined in RFC 3966, Section 5.1.4, or it cannot be used. Global Numbers MUST have a preceding + and a country code and MAY contain visual separators.
+
+The following is an example where the holder of the domain specified the contact property using a phone number.
+
+```DNS Zone
+$ORIGIN example.com.
+               CAA 0 contactphone "+1 (555) 123-4567"
+```
+
+The contactphone property MAY be critical if the domain owner does not want CAs who do not understand it to issue certificates for the domain.
+
+
+## A.2. DNS TXT Methods
+
+
+### A.2.1. DNS TXT Record Email Contact
+
+The DNS TXT record MUST be placed on the "`_validation-contactemail`" subdomain of the domain being validated. The entire RDATA value of this TXT record MUST be a valid email address as defined in RFC 6532, Section 3.2, with no additional padding or structure, or it cannot be used.
+
+
+### A.2.2. DNS TXT Record Phone Contact
+
+The DNS TXT record MUST be placed on the "`_validation-contactphone`" subdomain of the domain being validated. The entire RDATA value of this TXT record MUST be a valid Global Number as defined in RFC 3966, Section 5.1.4, or it cannot be used.
+
 
 # APPENDIX B – Issuance of Certificates for Onion Domain Names
 
@@ -2576,45 +2624,3 @@ This appendix defines permissible verification procedures for including one or m
       Once the FQDN has been validated using this method, the CA MAY also issue Certificates for other FQDNs that end with all the labels of the validated FQDN. This method is suitable for validating Wildcard Domain Names.
 
 3. When a Certificate includes an Onion Domain Name, the Domain Name shall not be considered an Internal Name provided that the Certificate was issued in compliance with this [Appendix B](#appendix-b--issuance-of-certificates-for-onion-domain-names).
-## A.1. CAA Methods
-
-### A.1.1. CAA contactemail Property
-
-SYNTAX: `contactemail <rfc6532emailaddress>`
-
-The CAA contactemail property takes an email address as its parameter. The entire parameter value MUST be a valid email address as defined in RFC 6532, Section 3.2, with no additional padding or structure, or it cannot be used.
-
-The following is an example where the holder of the domain specified the contact property using an email address.
-
-```DNS Zone
-$ORIGIN example.com.
-               CAA 0 contactemail "domainowner@example.com"
-```
-
-The contactemail property MAY be critical, if the domain owner does not want CAs who do not understand it to issue certificates for the domain.
-
-### A.1.2. CAA contactphone Property
-
-SYNTAX: `contactphone <rfc3966 Global Number>`
-
-The CAA contactphone property takes a phone number as its parameter. The entire parameter value MUST be a valid Global Number as defined in RFC 3966, Section 5.1.4, or it cannot be used. Global Numbers MUST have a preceding + and a country code and MAY contain visual separators.
-
-The following is an example where the holder of the domain specified the contact property using a phone number.
-
-```DNS Zone
-$ORIGIN example.com.
-               CAA 0 contactphone "+1 (555) 123-4567"
-```
-
-The contactphone property MAY be critical if the domain owner does not want CAs who do not understand it to issue certificates for the domain.
-
-## A.2. DNS TXT Methods
-
-### A.2.1. DNS TXT Record Email Contact
-
-The DNS TXT record MUST be placed on the "`_validation-contactemail`" subdomain of the domain being validated. The entire RDATA value of this TXT record MUST be a valid email address as defined in RFC 6532, Section 3.2, with no additional padding or structure, or it cannot be used.
-
-### A.2.2. DNS TXT Record Phone Contact
-
-The DNS TXT record MUST be placed on the "`_validation-contactphone`" subdomain of the domain being validated. The entire RDATA value of this TXT record MUST be a valid Global Number as defined in RFC 3966, Section 5.1.4, or it cannot be used.
-

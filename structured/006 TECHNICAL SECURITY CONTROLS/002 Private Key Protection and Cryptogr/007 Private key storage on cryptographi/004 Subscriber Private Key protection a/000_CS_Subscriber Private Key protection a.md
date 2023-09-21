@@ -1,2 +1,2 @@
-#### 6.2.7.4 Subscriber Private Key protection and verification 
+#### 6.2.7.4 Subscriber Private Key protection and verification
 
