@@ -88,7 +88,7 @@ def main():
                     os.chdir(sections[section])
 
                     # open file for writing
-                    file = open(os.fsencode("000_{}.md".format(
+                    file = open(os.fsencode("000_{}_{}.md".format(
                         abbreviation, title)), "w", encoding="utf8")
                     file.write(line)
                     continue
