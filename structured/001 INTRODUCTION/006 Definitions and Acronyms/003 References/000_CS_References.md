@@ -10,6 +10,8 @@ FIPS 140-3, Federal Information Processing Standards Publication - Security Requ
 
 FIPS 186-4, Federal Information Processing Standards Publication - Digital Signature Standard (DSS), Information Technology Laboratory, National Institute of Standards and Technology, July 2013.
 
+Guidelines for the Issuance and Management of Extended Validation Certificates, Version 1.7.2, available at https://cabforum.org/wp-content/uploads/CA-Browser-Forum-EV-Guidelines-v1.7.2.pdf.
+
 ISO 21188:2006, Public key infrastructure for financial services -- Practices and policy framework.
 
 Network and Certificate System Security Requirements, Version 1.7, available at https://cabforum.org/wp-content/uploads/CA-Browser-Forum-Network-Security-Guidelines-v1.7.pdf.

@@ -43,4 +43,7 @@
 | 2022-06-01 | 7.1.3.2.1 | CAs MUST NOT sign OCSP responses using the SHA-1 hash algorithm. |
 | 2022-09-01 | 7.1.4.2.2 | CAs MUST NOT include the organizationalUnitName field in the Subject |
 | 2023-01-15 | 7.2.2 | Sharded or partitioned CRLs MUST have a distributionPoint |
+| 2023-07-15 | 4.9.1.1 and 7.2.2 | New CRL entries MUST have a revocation reason code |
+| 2023-09-15 | Section 7 (and others) | CAs MUST use the updated Certificate Profiles passed in Version 2.0.0 |
+| 2024-03-15 | 4.9.7 | CAs MUST generate and publish CRLs. |
 

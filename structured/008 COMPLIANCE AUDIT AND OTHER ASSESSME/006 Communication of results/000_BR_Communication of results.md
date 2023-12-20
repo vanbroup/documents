@@ -8,7 +8,7 @@ The Audit Report MUST contain at least the following clearly-labelled informatio
 
 1. name of the organization being audited;
 2. name and address of the organization performing the audit;
-3. the SHA-256 fingerprint of all Roots and Subordinate CA Certificates, including Cross Certificates, that were in-scope of the audit;
+3. the SHA-256 fingerprint of all Roots and Subordinate CA Certificates, including Cross-Certified Subordinate CA Certificates, that were in-scope of the audit;
 4. audit criteria, with version number(s), that were used to audit each of the certificates (and associated keys);
 5. a list of the CA policy documents, with version numbers, referenced during the audit;
 6. whether the audit assessed a period of time or a point in time;
