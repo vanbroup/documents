@@ -9,6 +9,10 @@ def get_section(file: Path) -> str:
     return ".".join([str(item).lstrip("0") for item in re.findall("([0-9]{3}|[0-9]{2}[A-Z]) ", file.resolve().__str__())])
 
 def compare_texts(text1, text2):
+    differences_str = ""
+    if text1.partition('\n')[0].lower() != text2.partition('\n')[0].lower():
+        differences_str = "Different title"
+    
     # Remove punctuation, spaces, and newlines from the texts
     replace_chars = " \t\n\r\f\v"
     delete_chars = string.punctuation
@@ -18,11 +22,11 @@ def compare_texts(text1, text2):
     text2_cleaned = text2.lower().translate(translator).strip()
 
     # Use difflib to get the differences
-    differ = difflib.Differ()
-    differences = differ.compare(text1_cleaned, text2_cleaned)
+    # differ = difflib.Differ()
+    # differences = differ.compare(text1_cleaned, text2_cleaned)
 
-    # Convert differences list to a string
-    differences_str = ''.join(differences)
+    # # Convert differences list to a string
+    # differences_str = ''.join(differences)
 
     # Use difflib to compare the cleaned texts
     similarity_ratio = difflib.SequenceMatcher(None, text1_cleaned, text2_cleaned).ratio()
@@ -81,9 +85,8 @@ def main():
                         copy = copy_file.read()
 
                     # Use difflib to compare the cleaned texts
-                    similarity_percentage, _ = compare_texts(source, copy)
+                    similarity_percentage, diff_description = compare_texts(source, copy)
 
-                    diff_description = ""
                     # If similarity_percentage is less than 100, generate AI description of differences
                     # if similarity_percentage < 100:
                     #     diff_description = generate_diff_description(source, copy)

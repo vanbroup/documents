@@ -35,6 +35,7 @@ jobs:
         run: |
           cd ./tools
           mkdir -p ../public
+          python duplicates.py > ../duplicates.md
           python tohtml.py -out ../public/index.html 
 
       - name: Upload artifact

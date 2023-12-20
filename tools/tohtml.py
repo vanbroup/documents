@@ -55,11 +55,17 @@ def main():
     
     template = env.get_template('template.html')
 
+    # Include similarity/duplicate information
+    similarity = ""
+    with open('../duplicates.md', encoding="utf-8") as source_file:
+        similarity = markdown_to_html(source_file.read())
+
     # Render the template with data
     rendered_html = template.render(
         sections=sections,
         document_types=DOCUMENT_TYPES,
         markdown_to_html=markdown_to_html,
+        similarity=similarity,
         range=range  # Pass the range function to the template
     )
 
