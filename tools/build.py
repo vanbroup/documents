@@ -57,7 +57,7 @@ def process_file(file: Path, target_type: str, loa: list[str], out: io.TextIOWra
     file_loa = ''
     section = get_section(file)
 
-    with open(file, 'r', encoding="utf8") as f:
+    with open(file, 'r', encoding="utf-8") as f:
         for line in f:
             # If this file contains frontmatter (don't check the root files)
             if line == '---\n' and not re.match("000_[A-Z]+\.md", file.name):
@@ -93,9 +93,13 @@ def process_file(file: Path, target_type: str, loa: list[str], out: io.TextIOWra
                 continue
 
             if line.startswith('#'):
-                # Extract the current context
-                title = line.split(" ", 2)[2].strip()
-                section = line.split(" ", 2)[1].strip(".")
+                split_result = line.split(" ", 2)
+                if len(split_result) > 2:
+                    section = split_result[1].strip(".")
+                    title = split_result[2].strip()
+                else:
+                    print("No section in the following line: {}".format(line))
+                    title = line
 
             # Check if this line defines a requirement
             r = re.fullmatch("\s+\[([0-9]{3})\]\s([^$]+)", line)
@@ -133,7 +137,7 @@ def main():
     combined_output_file = output_dir / f"{target_type}.md"
     requirements_file = output_dir / f"{target_type}_requirements.csv"
 
-    with open(combined_output_file, "w", encoding="utf8") as out, open(requirements_file, "w", encoding="utf8", newline='') as rf:
+    with open(combined_output_file, "w", encoding="utf-8") as out, open(requirements_file, "w", encoding="utf-8", newline='') as rf:
         req = csv.writer(rf, quoting=csv.QUOTE_ALL)
         req.writerow(['ID', 'Section', 'LoA', 'Type', 'Requirement'])
 

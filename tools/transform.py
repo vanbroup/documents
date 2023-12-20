@@ -47,9 +47,9 @@ def main():
             sections[section] = o.resolve()
 
     # Parse the given document
-    with open(args.document, 'r', encoding="utf8") as f:
+    with open(args.document, 'r', encoding="utf-8") as f:
         file = open(os.fsencode("000_{}.md".format(
-            abbreviation)), "w", encoding="utf8")
+            abbreviation)), "w", encoding="utf-8")
 
         appendix = ""
         for line in f:
@@ -62,6 +62,7 @@ def main():
                 title = re.sub('[0-9]{3}', '', title)
                 title = re.sub('\s+', ' ', title)
                 title = (title[:truncate]) if len(title) > truncate else title
+                title = title.strip()
 
                 section = t[1].strip(".").upper()
 
@@ -89,7 +90,7 @@ def main():
 
                     # open file for writing
                     file = open(os.fsencode("000_{}_{}.md".format(
-                        abbreviation, title)), "w", encoding="utf8")
+                        abbreviation, title)), "w", encoding="utf-8")
                     file.write(line)
                     continue
 
@@ -104,7 +105,7 @@ def main():
                     # multiple sections in one directory
                     si = "-".join([str(item).zfill(3) for item in n[depth:]])
                     file = open(os.fsencode("{}_000_{}_{}.md".format(
-                        si, abbreviation, title)), "w", encoding="utf8")
+                        si, abbreviation, title)), "w", encoding="utf-8")
                     file.write(line)
                     continue
 
@@ -138,12 +139,13 @@ def main():
 
                 # open file for writing
                 file = open(os.fsencode("000_{}_{}.md".format(
-                    abbreviation, title)), "w", encoding="utf8")
+                    abbreviation, title)), "w", encoding="utf-8")
 
                 # the appendixes seem to be document specific for now
                 if appendix != "":
-                    file.write("---\ntargets:\n    included:\n        - {}\n---\n\n".format(abbreviation))
-                
+                    file.write(
+                        "---\ntargets:\n    included:\n        - {}\n---\n\n".format(abbreviation))
+
                 file.write(line)
 
             elif line.strip().startswith("No stipulation"):

@@ -3,16 +3,19 @@ import argparse
 import string
 import difflib
 from pathlib import Path
-from transformers import pipeline
+#from transformers import pipeline
 
 def get_section(file: Path) -> str:
     return ".".join([str(item).lstrip("0") for item in re.findall("([0-9]{3}|[0-9]{2}[A-Z]) ", file.resolve().__str__())])
 
 def compare_texts(text1, text2):
     # Remove punctuation, spaces, and newlines from the texts
-    translator = str.maketrans('', '', string.punctuation + ' \n')
-    text1_cleaned = text1.lower().translate(translator)
-    text2_cleaned = text2.lower().translate(translator)
+    replace_chars = " \t\n\r\f\v"
+    delete_chars = string.punctuation
+    translator = str.maketrans(replace_chars, " "*len(replace_chars), delete_chars)
+
+    text1_cleaned = text1.lower().translate(translator).strip()
+    text2_cleaned = text2.lower().translate(translator).strip()
 
     # Use difflib to get the differences
     differ = difflib.Differ()
@@ -29,15 +32,14 @@ def compare_texts(text1, text2):
 
     return similarity_percentage, differences_str
 
-def generate_diff_description(text1, text2):
-    return ""
-    # Only generate description if there are differences
-    diff_generator = pipeline(task="text-generation", model="EleutherAI/gpt-neo-2.7B")
+# def generate_diff_description(text1, text2):
+#     # Only generate description if there are differences
+#     diff_generator = pipeline(task="text-generation", model="EleutherAI/gpt-neo-2.7B")
     
-    # Generate a description of the differences
-    diff_description = diff_generator(f"Differences between the texts:\n{text1}\n\n{text2}", max_length=300)[0]['generated_text']
+#     # Generate a description of the differences
+#     diff_description = diff_generator(f"Differences between the texts:\n{text1}\n\n{text2}", max_length=300)[0]['generated_text']
     
-    return diff_description
+#     return diff_description
 
 def main():
     parser = argparse.ArgumentParser(
@@ -66,29 +68,30 @@ def main():
                 sections[type][section] = f.resolve()
 
     print("| Section  | Type  | Similarity (%) | Differences |")
-    print("|:---------|:-----:|:--------------:|:-----------:|")
+    print("|:---------|:-----:|---------------:|:-----------:|")
 
     for section, br_file in br_files.items():
         for type, file in sections.items():
             if type != 'BR' and section in file:
                 try:
-                    with br_file.open(encoding="utf8") as source_file:
+                    with br_file.open(encoding="utf-8") as source_file:
                         source = source_file.read()
 
-                    with file[section].open(encoding="utf8") as copy_file:
+                    with file[section].open(encoding="utf-8") as copy_file:
                         copy = copy_file.read()
 
                     # Use difflib to compare the cleaned texts
                     similarity_percentage, _ = compare_texts(source, copy)
 
+                    diff_description = ""
                     # If similarity_percentage is less than 100, generate AI description of differences
-                    if similarity_percentage < 100:
-                        diff_description = generate_diff_description(source, copy)
-                    else:
-                        diff_description = "No differences."
+                    # if similarity_percentage < 100:
+                    #     diff_description = generate_diff_description(source, copy)
+                    # else:
+                    #    diff_description = "No differences."
 
                     # Align the percentage column to the right
-                    print("| {} | {} | {:>8} | {} |".format(section, type, similarity_percentage, diff_description))
+                    print("| {:<8} | {:<5} | {:>14} | {:<11} |".format(section, type, similarity_percentage, diff_description))
                     
                     if similarity_percentage == 100:
                         sections[type][section].unlink()
