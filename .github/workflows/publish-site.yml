@@ -29,6 +29,8 @@ jobs:
         with:
           python-version: '3.10' 
           cache: 'pip'
+      - name: Install dependencies
+        run: pip install ./tools/requirements.txt
       - name: Build HTML output
         run: |
           cd ./tools
