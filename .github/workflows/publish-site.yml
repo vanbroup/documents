@@ -31,10 +31,9 @@ jobs:
           cache: 'pip'
       - name: Build HTML output
         run: |
-          alias py=python
           cd ./tools
           mkdir -p ../public
-          py tohtml.py > ../public/index.html
+          python tohtml.py > ../public/index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
