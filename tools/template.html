@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Include the Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            padding-top: 50px;
+            min-height: 100vh;
+            font-family: sans-serif !important;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            scroll-margin-top: 90px;
+        }
+
+        .section-title {
+            transform: rotate(90deg);
+        }
+
+        .section-container {
+            display: flex;
+            flex-wrap: nowrap; /* No wrap so all items are in a single line */
+            gap: 10px; /* Space between cards */
+        }
+
+        .card:hover {
+            border-style: solid;
+            border-width: 1px;
+            border-color: black !important;
+        }
+
+        .card-container {
+            flex-grow: 1;
+            flex-basis: 0;
+            min-width: 250px; 
+            overflow: clip; 
+        }
+
+        .card-container.hidden {
+            display: none; /* This class will be applied to cards to hide them */
+        }
+
+        /* display icons only when hovering the card */
+        .onhover {
+            display: none;
+        }
+        .card:hover .onhover {
+            display: inline;
+        }
+
+        #tocContent a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .type-TLS {
+            background-color: #ff000010 !important; /* 10% red */
+        }
+        .type-CS {
+            background-color: #00ff0010 !important; /* 10% green */
+        }
+        .type-SMIME {
+            background-color: #ffff0010 !important; /* 10% yellow */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar bg-dark text-bg-dark fixed-top border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#toc" aria-controls="toc" aria-label="Toggle TOC">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="toc" aria-labelledby="tocLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="tocLabel">Table of Contents</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body" id="tocContent">
+                </div>
+            </div>
+
+            {% for type in document_types %}
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="toggle{{ type }}" checked>
+                    <label class="form-check-label" for="toggle{{ type }}">
+                        {{ type }}
+                    </label>
+                </div>
+            {% endfor %}
+        </div>
+    </nav>
+
+    <main>
+    {% for section, files_dict in sections.items() %}
+        <div class="section-container mt-4">
+            {% for type in document_types %}
+                {% set file_paths = files_dict.get(type, []) %}
+                {% if file_paths %}
+                <div class="card card-container text-bg-light border-light type-{{ type }}">
+                        <div class="card-body">
+                            <div class="position-absolute top-0 end-0 m-2">
+                                <a class="onhover text-decoration-none text-reset" href="https://github.com/vanbroup/documents/tree/brofbr/tools/{{ file_paths[0] }}" title="Edit {{ file_paths[0] }}" target="_blank">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                    </svg>
+                                </a>    
+                                <span class="ms-2 badge rounded-pill bg-secondary">                                
+                                    {{ type }}
+                                </span>
+                            </div>
+                            <div class="m-3">{{ markdown_to_html(file_paths[0].read_text(encoding='utf-8')) }}</div>
+                        </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+    </main>
+
+    <!-- Include the Bootstrap 5 and Popper.js JS bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function toggleVisibility(type) {
+            // Select and toggle visibility for the specified type
+            const elements = document.querySelectorAll('.type-' + type);
+            elements.forEach(element => {
+                element.classList.toggle('hidden');
+            });
+        }
+
+        // Add event listeners for toggle switches after the content is loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            const elements = document.querySelectorAll('table');
+            elements.forEach(element => {
+                element.setAttribute('class', 'table table-bordered');
+            });
+
+            {% for type in document_types %}
+                document.getElementById('toggle{{ type }}').addEventListener('change', function () {
+                    toggleVisibility('{{ type }}');
+                });
+            {% endfor %}
+
+
+            var toc = "";
+            var level = 0;
+            var anchors = [];
+
+            document.querySelector("main").querySelectorAll("h1, h2, h3, h4, h5, h6").forEach(function (header) {
+                var anchorName = header.getAttribute("id");
+                if (!anchors.includes(anchorName)) {
+                    anchors.push(anchorName);
+                    var headerLevel = parseInt(header.tagName[1]);
+                    toc += "<div style=\"margin-left: " + (headerLevel - 1) * 10 + "px; margin-top: " + (headerLevel < level ? 20 : 0) + "px; font-weight: " + (headerLevel === 1 ? 'bold' : 'normal') + "\"><a href=\"#" + anchorName + "\">" + header.textContent + "</a></div>";
+                }
+                level = parseInt(header.tagName[1]);
+            });
+
+            document.getElementById("tocContent").innerHTML += toc;
+
+        });
+    </script>
+</body>
+</html>
