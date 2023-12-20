@@ -1,13 +1,11 @@
 from jinja2 import Environment, FileSystemLoader
-from transformers import pipeline
 import re
 import argparse
 from pathlib import Path
-import string
 import markdown
 
 # Define document types as constants
-DOCUMENT_TYPES = ['BR', 'CS', 'SMIME', 'EV', 'TLS']
+DOCUMENT_TYPES = ['BR', 'CS', 'SMIME', 'EVG', 'TLS']
 
 def get_section(file: Path) -> str:
     return ".".join([str(item).lstrip("0") for item in re.findall("([0-9]{3}|[0-9]{2}[A-Z]) ", file.resolve().__str__())])
@@ -25,10 +23,12 @@ def main():
         description='Remove files that have the same content as the Baseline Requirements')
     parser.add_argument('-in', '--input', default='../structured/', type=str,
                         help='input directory')
+    parser.add_argument('-out', '--output', default='output.html', type=str,
+                        help='output file name')
     args = parser.parse_args()
 
     sections = {}
-    p = Path('../structured')
+    p = Path(args.input)
     files = sorted(p.rglob("*.md"))
     for f in files:
         rt = re.search("\_([A-Z]{2,8})(_|\.md)", f.name)
@@ -63,8 +63,9 @@ def main():
         range=range  # Pass the range function to the template
     )
 
-    # Print the rendered HTML
-    print(rendered_html)
+    # Write the rendered HTML to the specified output file
+    with open(args.output, 'w', encoding='utf-8') as output_file:
+        output_file.write(rendered_html)
 
 if __name__ == '__main__':
     main()

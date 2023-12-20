@@ -35,7 +35,7 @@ jobs:
         run: |
           cd ./tools
           mkdir -p ../public
-          python tohtml.py > ../public/index.html
+          python tohtml.py -out ../public/index.html 
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
