@@ -35,7 +35,6 @@ jobs:
         with:
           python-version: '3.10' 
           cache: 'pip'
-      - run: pip install -r ./tools/requirements.txt
       - name: Build HTML output
         run: |
           cd ./tools
