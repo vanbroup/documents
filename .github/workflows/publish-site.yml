@@ -1,14 +1,8 @@
-# This is a basic workflow to run a bash script
+name: Publish website
 
-name: Build Docs
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push events to the main branch
   push:
     branches: [ main, brofbr ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
@@ -37,6 +31,7 @@ jobs:
           cache: 'pip'
       - name: Build HTML output
         run: |
+          alias py=python
           cd ./tools
           mkdir -p ../public
           py tohtml.py > ../public/index.html
