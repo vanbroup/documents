@@ -46,13 +46,8 @@
             overflow: clip;
         }
 
-        .card-container.hidden {
-            display: none;
-            /* This class will be applied to cards to hide them */
-        }
-
-        /* display icons only when hovering the card */
-        .onhover {
+        /* display icons only when hovering the card and hide diff */
+        .onhover, .hidden {
             display: none;
         }
 
@@ -143,10 +138,18 @@
             {% for type in document_types %}
             {% set file_paths = files_dict.get(type, []) %}
             {% if file_paths %}
-            <div class="card card-container text-bg-light border-light type-{{ type }}">
+            <div class="card card-container text-bg-light border-light type-{{ type }} section-{{ section | replace('.', '-') }}">
                 <div class="card-body">
                     <div class="position-absolute top-0 end-0 m-2">
-                        <a class="onhover text-decoration-none text-reset"
+                        {% if type != 'BR' %}
+                        <a class="ms-2 onhover text-decoration-none text-reset" onclick="displayDiff('{{ type }}','{{ section | replace('.', '-') }}');">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-diff" viewBox="0 0 16 16">
+                                <path d="M8 4a.5.5 0 0 1 .5.5V6H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V7H6a.5.5 0 0 1 0-1h1.5V4.5A.5.5 0 0 1 8 4m-2.5 6.5A.5.5 0 0 1 6 10h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5"/>
+                                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+                        <a class="ms-2 onhover text-decoration-none text-reset"
                             href="https://github.com/vanbroup/documents/tree/brofbr/tools/{{ file_paths[0] }}"
                             title="Edit {{ file_paths[0] }}" target="_blank">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -161,7 +164,8 @@
                             {{ type }}
                         </span>
                     </div>
-                    <div class="m-3">{{ markdown_to_html(file_paths[0].read_text(encoding='utf-8')) }}</div>
+                    <div class="m-3 typeContent">{{ markdown_to_html(file_paths[0].read_text(encoding='utf-8')) }}</div>
+                    <div class="m-3 diffContent hidden"></div>
                 </div>
             </div>
             {% endif %}
@@ -172,6 +176,7 @@
 
     <!-- Include the Bootstrap 5 and Popper.js JS bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/diff-match-patch@1.0.5/index.min.js"></script>
 
     <script>
         function toggleVisibility(type) {
@@ -180,6 +185,32 @@
             elements.forEach(element => {
                 element.classList.toggle('hidden');
             });
+        }
+
+        var dmp = new diff_match_patch();
+        function displayDiff(type, section) {
+            var diffElement = document.querySelector('.type-'+ type +'.section-'+ section +' .diffContent');
+
+            // Only toggle display if diff was already created
+            if (diffElement.innerHTML === '') {
+                var brElement = document.querySelector('.type-BR.section-'+ section +' .typeContent');
+                var typeElement = document.querySelector('.type-'+ type +'.section-'+ section +' .typeContent');
+
+                var brContent = brElement.innerText;
+                var typeContent = typeElement.innerText;
+
+                dmp.Diff_Timeout = 5;
+                dmp.Diff_EditCost = 4;
+
+                var d = dmp.diff_main(brContent, typeContent);
+                dmp.diff_cleanupEfficiency(d);
+
+                var ds = dmp.diff_prettyHtml(d);
+                diffElement.innerHTML = ds;
+            }
+            
+            typeElement.classList.toggle('hidden');
+            diffElement.classList.toggle('hidden');
         }
 
         // Add event listeners for toggle switches after the content is loaded
