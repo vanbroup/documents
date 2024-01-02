@@ -36,7 +36,7 @@ jobs:
           cd ./tools
           mkdir -p ../public
           python duplicates.py > ../duplicates.md
-          python tohtml.py -out ../public/index.html 
+          python tohtml.py -out ../public/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2

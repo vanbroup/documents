@@ -23,6 +23,6 @@ py build.py CS
 py build.py SMIME
 
 mkdir -p ../public
-py tohtml.py -out ../public/index.html
+py tohtml.py -out ../public/
 
 echo "Done"

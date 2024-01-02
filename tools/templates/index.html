@@ -1,0 +1,295 @@
+{% include 'includes/header.html' %}
+
+<main>
+{% for section, files_dict in sections.items() %}
+<div class="section-container mt-4">
+    {% for type in document_types %}
+    {% set file_paths = files_dict.get(type, []) %}
+    {% if file_paths %}
+    <div
+        class="card card-container text-bg-light border-light type-{{ type }} section-{{ section | replace('.', '-') }}">
+        <div class="card-body">
+            <div class="position-absolute top-0 end-0 m-2">
+                <a class="ms-2 onhover text-decoration-none text-reset"
+                    onclick="displayMarkDown('{{ type }}','{{ section | replace('.', '-') }}');">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-markdown" viewBox="0 0 16 16">
+                        <path
+                            d="M14 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z" />
+                        <path fill-rule="evenodd"
+                            d="M9.146 8.146a.5.5 0 0 1 .708 0L11.5 9.793l1.646-1.647a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 0-.708z" />
+                        <path fill-rule="evenodd"
+                            d="M11.5 5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 1 .5-.5" />
+                        <path
+                            d="M3.56 11V7.01h.056l1.428 3.239h.774l1.42-3.24h.056V11h1.073V5.001h-1.2l-1.71 3.894h-.039l-1.71-3.894H2.5V11z" />
+                    </svg>
+                </a>
+                {% if type != 'BR' %}
+                <a class="ms-2 onhover text-decoration-none text-reset"
+                    onclick="displayDiff('{{ type }}','{{ section | replace('.', '-') }}');">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-file-diff" viewBox="0 0 16 16">
+                        <path
+                            d="M8 4a.5.5 0 0 1 .5.5V6H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V7H6a.5.5 0 0 1 0-1h1.5V4.5A.5.5 0 0 1 8 4m-2.5 6.5A.5.5 0 0 1 6 10h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5" />
+                        <path
+                            d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1" />
+                    </svg>
+                </a>
+                {% endif %}
+                <a class="ms-2 onhover text-decoration-none text-reset"
+                    href="https://github.com/vanbroup/documents/tree/brofbr/tools/{{ file_paths[0] }}"
+                    title="Edit {{ file_paths[0] }}" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path
+                            d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                        <path fill-rule="evenodd"
+                            d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                    </svg>
+                </a>
+                <span class="ms-2 ms-2 badge rounded-pill bg-secondary-subtle text-bg-light similarity"></span>
+                <span class="ms-2 badge rounded-pill bg-secondary">
+                    {{ type }}
+                </span>
+            </div>
+            <div class="m-3 markDownContent hidden" contenteditable="true">{{ file_paths[0].read_text(encoding='utf-8') }}</div>
+            <div class="m-3 htmlContent"></div>
+            <div class="m-3 diffContent hidden"></div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endfor %}
+
+<script src="https://cdn.jsdelivr.net/npm/diff-match-patch@1.0.5/index.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+
+<script>
+    function toggleVisibility(type) {
+        // Select and toggle visibility for the specified type
+        const elements = document.querySelectorAll('.type-' + type);
+        elements.forEach(element => {
+            element.classList.toggle('hidden');
+        });
+    }
+
+    function displayMarkDown(type, section) {
+        var typeElement = document.querySelector('.type-' + type + '.section-' + section);
+        typeElement.querySelector('.markDownContent').classList.toggle('hidden');
+        typeElement.querySelector('.htmlContent').classList.toggle('hidden');
+    }
+
+    var dmp = new diff_match_patch();
+    function updateDiff(type, section) {
+        var typeElement = document.querySelector('.type-' + type + '.section-' + section);
+        var diffElement = typeElement.querySelector('.diffContent');
+        var htmlElement = typeElement.querySelector('.htmlContent');
+        var similarityElement = typeElement.querySelector('.similarity');
+
+        var brElement = document.querySelector('.type-BR.section-' + section)
+        if (brElement === null) {
+            return;
+        }
+
+        var brMarkDownElement = brElement.querySelector('.markDownContent');
+        var markDownElement = typeElement.querySelector('.markDownContent');
+
+        var brContent = brMarkDownElement.innerText;
+        var markDownContent = markDownElement.innerText;
+
+        dmp.Diff_Timeout = 5;
+        dmp.Diff_EditCost = 4;
+
+        var d = dmp.diff_main(brContent, markDownContent);
+        dmp.diff_cleanupEfficiency(d);
+
+        var ds = dmp.diff_prettyHtml(d);
+        diffElement.innerHTML = ds;
+
+        updateSimilarity(type, section);
+    }
+
+    
+    function updateSimilarities() {
+        // Get all the types and sections from the DOM to set similarity
+        var typeSections = Array.from(document.querySelectorAll('[class^="type-"], [class*=" type-"]')).map(el => {
+            var typeMatch = el.className.match(/type-([^\s]+)/);
+            var sectionMatch = el.className.match(/section-([^\s]+)/);
+            return {
+                type: typeMatch ? typeMatch[1] : null,
+                section: sectionMatch ? sectionMatch[1] : null
+            };
+        });
+
+        // For each type-section combination, update the similarity
+        typeSections.forEach(function (typeSection) {
+            if (typeSection.type && typeSection.type !== 'BR' && typeSection.section) {
+                updateSimilarity(typeSection.type, typeSection.section);
+            }
+        });
+    }
+
+    function updateSimilarity(type, section) {
+        var typeElement = document.querySelector('.type-' + type + '.section-' + section);
+        var diffElement = typeElement.querySelector('.diffContent');
+        var htmlElement = typeElement.querySelector('.htmlContent');
+        var similarityElement = typeElement.querySelector('.similarity');
+
+        var brElement = document.querySelector('.type-BR.section-' + section)
+        if (brElement === null) {
+            return;
+        }
+
+        var brMarkDownElement = brElement.querySelector('.markDownContent');
+        var markDownElement = typeElement.querySelector('.markDownContent');
+
+        var brContent = brMarkDownElement.innerText;
+        var markDownContent = markDownElement.innerText;
+
+        // Normalize the texts (convert to lower case, remove spaces and newlines)
+        var normalizedBrContent = brContent.toLowerCase().replace(/\s+/g, '');
+        var normalizedMarkDownContent = markDownContent.toLowerCase().replace(/\s+/g, '');
+
+        // Calculate the Levenshtein distance
+        var distance = levenshtein(normalizedBrContent, normalizedMarkDownContent);
+
+        // Calculate the percentage similarity
+        var maxLength = Math.max(brContent.length, markDownContent.length);
+        var percentageSimilarity = ((maxLength - distance) / maxLength) * 100;
+
+        // Show the percentage similarity
+        similarityElement.innerText = percentageSimilarity.toFixed(0) + '%';
+    }
+
+    function levenshtein(a, b) {
+        var temp, i, j, prev, val, row, matrix = [];
+        var a = a.split(''), b = b.split('');
+
+        for (i = 0; i <= b.length; i++) {
+            matrix[i] = [i];
+            if (i === 0) continue;
+            for (j = 0; j <= a.length; j++) {
+                matrix[0][j] = j;
+                if (j === 0) continue;
+                prev = matrix[i - 1][j - 1];
+                val = b[i - 1] === a[j - 1] ? prev : prev + 1;
+                row = matrix[i];
+                row[j] = Math.min(val, row[j - 1] + 1, matrix[i - 1][j] + 1);
+            }
+        }
+        return matrix[b.length][a.length];
+    }
+
+    function displayDiff(type, section) {
+        var typeElement = document.querySelector('.type-' + type + '.section-' + section);
+        var diffElement = typeElement.querySelector('.diffContent');
+        var htmlElement = typeElement.querySelector('.htmlContent');
+
+        var brElement = document.querySelector('.type-BR.section-' + section);
+
+        // Only toggle display if diff was already created
+        if (diffElement.innerHTML === '') {
+            updateDiff(type, section);
+        }
+
+        htmlElement.classList.toggle('hidden');
+        diffElement.classList.toggle('hidden');
+
+        // Get all diffContents in the same section
+        var diffContents = document.querySelectorAll(' .section-' + section + ' .diffContent');
+
+        // Check if there is any visible diffContent
+        var isAnyDiffContentVisible = Array.from(diffContents).some(function (diffContent) {
+            return !diffContent.classList.contains('hidden');
+        });
+
+        // Show the brElement only if there is any visible diffContent
+        if (isAnyDiffContentVisible) {
+            brElement.querySelector('.markDownContent').classList.remove('hidden');
+            brElement.querySelector('.htmlContent').classList.add('hidden');
+        } else {
+            brElement.querySelector('.markDownContent').classList.add('hidden');
+            brElement.querySelector('.htmlContent').classList.remove('hidden');
+        }
+    }
+
+    function fixMarkdown(content) {
+        return content.replaceAll("|-", "|--");
+    }
+
+    // Add event listeners for toggle switches after the content is loaded
+    document.addEventListener('DOMContentLoaded', function () {
+        const markDownElements = document.querySelectorAll('.markDownContent');
+        markDownElements.forEach(element => {
+            // Create a new showdown converter
+            var converter = new showdown.Converter({ metadata: true, smartIndentationFix: true, openLinksInNewWindow: true});
+            converter.setFlavor('github');
+
+            // Convert the markdown to HTML using Showdown
+            var htmlContent = converter.makeHtml(fixMarkdown(element.textContent));
+
+            // Replace the markdown content in the div with the converted HTML
+            element.parentNode.querySelector('.htmlContent').innerHTML = htmlContent;
+
+            // Add an input event listener to the markdown div
+            element.addEventListener('input', function () {
+                // Convert the updated markdown to HTML
+                var updatedHtmlContent = converter.makeHtml(fixMarkdown(this.textContent));
+                console.log(fixMarkdown(this.textContent));
+
+                // Update the HTML preview
+                this.parentNode.querySelector('.htmlContent').innerHTML = updatedHtmlContent;
+
+                // Extract the section and type from the class list of the parent element
+                var classes = this.parentNode.parentNode.className.split(/\s+/);
+                var type = classes.find(c => c.startsWith('type-')).substring(5);
+                var section = classes.find(c => c.startsWith('section-')).substring(8);
+
+                // Trigger updateDiff and updateSimilarity
+                updateDiff(type, section);
+            });
+        });
+
+
+        {% for type in document_types %}
+        document.getElementById('toggle{{ type }}').addEventListener('change', function () {
+            toggleVisibility('{{ type }}');
+        });
+        {% endfor %}
+
+
+        var toc = "";
+        var level = 0;
+        var anchors = [];
+
+        document.querySelector("main").querySelectorAll("h1, h2, h3, h4, h5, h6").forEach(function (header) {
+            var anchorName = header.getAttribute("id");
+            
+            let headerLink = document.createElement('a');
+            headerLink.href = "#" + anchorName;
+            
+            // Store the current header text and clear it
+            let headerText = header.textContent;
+            header.textContent = '';
+
+            // Set the text of the anchor to the header text
+            headerLink.textContent = headerText;
+
+            // Append the anchor to the header
+            header.append(headerLink);
+            
+            if (!anchors.includes(anchorName)) {
+                anchors.push(anchorName);
+                var headerLevel = parseInt(header.tagName[1]);
+                toc += "<div style=\"margin-left: " + (headerLevel - 1) * 10 + "px; margin-top: " + (headerLevel < level ? 20 : 0) + "px; font-weight: " + (headerLevel === 1 ? 'bold' : 'normal') + "\"><a href=\"#" + anchorName + "\">" + header.textContent + "</a></div>";
+            }
+            level = parseInt(header.tagName[1]);
+        });
+
+        document.getElementById("tocContent").innerHTML += toc;
+        //updateSimilarities();
+    });
+</script>
+
+{% include 'includes/footer.html' %}
