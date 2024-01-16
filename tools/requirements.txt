@@ -3,3 +3,4 @@ Markdown==3.4.4
 openai==1.6.0
 python_frontmatter==1.0.0
 transformers==4.36.2
+diff_match_patch==20230430
