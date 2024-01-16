@@ -114,26 +114,49 @@
             </button>
             <div class="navbar me-auto">
                 <a class="nav-link ms-4" href="/documents/">Home</a>
-                <a class="nav-link ms-4" href="/documents/similarity/">Show similarity</a>
+                <a class="nav-link ms-4" href="/documents/similarity/">Similarity</a>
+                {% for type in document_types %}
+                    <a class="nav-link ms-4 d-none d-lg-inline" href="/documents/diff-{{ type | lower }}.html">Diff {{ type }}</a>
+                {% endfor %}
             </div>
             <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="toc"
                 aria-labelledby="tocLabel">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="tocLabel">Table of Contents</h5>
+                    <div class="offcanvas-title" id="tocLabel"></div>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <div class="offcanvas-body" id="tocContent">
+                <div class="offcanvas-body">
+                    <hr />
+                    <div class="m-0 p-0">
+                        <a class="nav-link ms-4" href="/documents/">Home</a>
+                        <a class="nav-link ms-4" href="/documents/similarity/">Show similarity</a>
+                        {% for type in document_types %}
+                            <a class="nav-link ms-4" href="/documents/diff-{{ type | lower }}.html">Differences {{ type }} (in/out)</a>
+                        {% endfor %}
+                    </div>
+
+                    <hr />
+                    <div id="tocContent"></div>
                 </div>
             </div>
             <div class="d-flex">
-                {% for type in document_types %}
+                {% if not diff_text %}
+                    {% for type in document_types %}
+                    <div class="form-check form-switch mx-2">
+                        <input class="form-check-input" type="checkbox" role="switch" id="toggle{{ type }}" checked>
+                        <label class="form-check-label" for="toggle{{ type }}">
+                            {{ type }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                {% else %}
                 <div class="form-check form-switch mx-2">
-                    <input class="form-check-input" type="checkbox" role="switch" id="toggle{{ type }}" checked>
-                    <label class="form-check-label" for="toggle{{ type }}">
-                        {{ type }}
+                    <input class="form-check-input" type="checkbox" role="switch" id="toggleUnchanged" checked>
+                    <label class="form-check-label" for="toggleUnchanged">
+                        Unchanged
                     </label>
                 </div>
-                {% endfor %}
+                {% endif %}
             </div>
         </div>
     </nav>
