@@ -28,7 +28,7 @@ This is the paragrpah of the CA/Browser Forum Basline Requirements:
 """
 
 def get_section(file: Path) -> str:
-    return ".".join([str(item).lstrip("0") for item in re.findall("([0-9]{3}|[0-9]{2}[A-Z]) ", file.resolve().__str__())])
+    return ".".join([str(item).lstrip("0") for item in re.findall("(?<!_)([0-9]{3}|[0-9]{2}[A-Z])(?!_[A-Z])", file.resolve().__str__())])
 
 def get_requirements(content):
     completion = openai.chat.completions.create(

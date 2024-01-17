@@ -15,6 +15,9 @@ echo "Removing duplicates"
 
 py duplicates.py > ../duplicates.md
 
+echo "Adding examples"
+cp -r testlayers/* ../structured/
+
 echo "Building documents"
 
 py build.py BR

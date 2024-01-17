@@ -24,6 +24,15 @@ If the weight of the CS and/or SMIME was different, like 001 in the example belo
 001_SMIME_INTRODUCTION.md
 ```
 
+## Reserved layers
+
+To facilitate special formatting of certain layers the following layers are reserved for a specific purpose.
+
+| Layer   | Description                   |
+| :------ | :---------------------------- |
+| 800-899 | Auditors and Assessors        |
+| 900-999 | CA Control Statements, CP/CPS |
+
 ## Usage
 
 Transform documents:
@@ -55,10 +64,19 @@ py build.py BR --loa OV
 py build.py BR --loa DV OV EV
 ```
 
+Build documents and exclude a layer or range of layers from the build:
+
+```sh
+py build.py BR --exclude-layers 800
+py build.py BR --exclude-layers 800 801 802
+py build.py BR --exclude-layers 800-999
+py build.py BR --exclude-layers 800-810 820-830
+```
+
 Create a HTML view:
 
 ```sh
-py tohtml.py -out ../public/index.html
+py tohtml.py -out ../public/
 ```
 
 ## Requirements

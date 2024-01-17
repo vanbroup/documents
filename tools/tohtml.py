@@ -12,7 +12,7 @@ DOCUMENT_TYPES = [os.path.splitext(file)[0] for file in os.listdir(output_folder
 
 
 def get_section(file: Path) -> str:
-    return ".".join([str(item).lstrip("0") for item in re.findall("([0-9]{3}|[0-9]{2}[A-Z]) ", file.resolve().__str__())])
+    return ".".join([str(item).lstrip("0") for item in re.findall("(?<!_)([0-9]{3}|[0-9]{2}[A-Z])(?!_[A-Z])", file.resolve().__str__())])
 
 def read_markdown(filename):
     with open(filename, encoding="utf-8") as source_file:
@@ -26,19 +26,8 @@ def markdown_to_html(markdown_text):
     # Use the tables extension to convert Markdown tables to HTML
     return markdown.markdown(markdown_text, extensions=['abbr', 'fenced_code', 'tables', 'toc'])
 
-def main():
-    parser = argparse.ArgumentParser(
-        description='Remove files that have the same content as the Baseline Requirements')
-    parser.add_argument('-in', '--input', default='../structured/', type=str,
-                        help='input directory')
-    parser.add_argument('-out', '--output', default='../public/', type=str,
-                        help='output directory')
-    args = parser.parse_args()
-
-    sections = {}
-    p = Path(args.input)
-    files = sorted(p.rglob("*.md"))
-    for f in files:
+def process_files(input_dir: Path, sections: dict[str, dict[str, Path]]) -> None:
+    for f in sorted(input_dir.glob("*.md")):
         rt = re.search("\_([A-Z]{2,8})(_|\.md)", f.name)
         if rt is None:
             print("Invalid filename {}".format(f.name))
@@ -53,6 +42,25 @@ def main():
             sections[section].setdefault(type, [])
 
         sections[section][type].append(f)
+
+    # Process all files in the subdirectories
+    for subdir in sorted(input_dir.iterdir()):
+        if subdir.is_dir():
+            sections = process_files(subdir, sections)
+
+    return sections
+
+def main():
+    parser = argparse.ArgumentParser(
+        description='Remove files that have the same content as the Baseline Requirements')
+    parser.add_argument('-in', '--input', default='../structured/', type=str,
+                        help='input directory')
+    parser.add_argument('-out', '--output', default='../public/', type=str,
+                        help='output directory')
+    args = parser.parse_args()
+
+    sections = {}
+    sections = process_files(Path(args.input), sections)
 
     # Load the Jinja2 template environment with 'do' extension
     env = Environment(loader=FileSystemLoader('templates'), extensions=['jinja2.ext.do'])

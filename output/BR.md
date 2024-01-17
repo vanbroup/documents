@@ -192,6 +192,21 @@ The following Certificate Policy identifiers are reserved for use by CAs to asse
 
 The CA/Browser Forum is a voluntary organization of Certification Authorities and suppliers of Internet browser and other relying-party software applications.
 
+I do also participate :-)
+
+This is a description of a requirement.
+
+	[BR-1.3-001] This is the actual requirement
+
+::::: layer-800
+The layers 800 to 899 are reserved for Auditors and Assessors.
+
+:::::
+
+::::: layer-900
+CA's can use the layers 900 to 999 to write control statements or additional information to automatically construct their CP/CPS.
+:::::
+
 ### 1.3.1 Certification Authorities
 
 Certification Authority (CA) is defined in [Section 1.6](#16-definitions-and-acronyms). Current CA Members of the CA/Browser Forum are listed here: <https://cabforum.org/members>.

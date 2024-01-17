@@ -6,7 +6,7 @@ from pathlib import Path
 #from transformers import pipeline
 
 def get_section(file: Path) -> str:
-    return ".".join([str(item).lstrip("0") for item in re.findall("([0-9]{3}|[0-9]{2}[A-Z]) ", file.resolve().__str__())])
+    return ".".join([str(item).lstrip("0") for item in re.findall("(?<!_)([0-9]{3}|[0-9]{2}[A-Z])(?!_[A-Z])", file.resolve().__str__())])
 
 def compare_texts(text1, text2):
     differences_str = ""

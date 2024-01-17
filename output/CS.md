@@ -76,6 +76,10 @@ The following Certificate Policy Identifier is reserved for use by CAs as a requ
 
 ## 1.3 PKI participants
 
+This is only included in the code signing document.
+
+	[CS-1.3-001] This is a Code Signing requirement
+
 ### 1.3.1 Certification authorities
 
 ### 1.3.2 Registration authorities

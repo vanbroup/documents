@@ -8,10 +8,29 @@ import frontmatter
 
 
 def get_section(file: Path) -> str:
-    return ".".join([str(item).lstrip("0") for item in re.findall("([0-9]{3}|[0-9]{2}[A-Z]) ", file.resolve().__str__())])
+    return ".".join([str(item).lstrip("0") for item in re.findall("(?<!_)([0-9]{3}|[0-9]{2}[A-Z])(?!_[A-Z])", file.resolve().__str__())])
 
+def is_excluded(filename: str, exclusions: list[str]) -> bool:
+    """Check if the filename matches any of the exclusions."""
 
-def process_files(target_type: str, loa: list[str], out: io.TextIOWrapper, req: csv.writer, input_dir: Path, sections: dict[str, Path]) -> None:
+    # Extract the layer from the filename
+    layer = re.search(r'(\d{3})_', filename)
+    if layer:
+        layer = layer.group(1)
+
+    for exclusion in exclusions:
+        if '-' in exclusion:
+            # The exclusion is a range
+            start, end = map(int, exclusion.split('-'))
+            if start <= int(layer) <= end:
+                return True
+        elif exclusion == layer:
+            # The exclusion is a single layer
+            return True
+
+    return False
+
+def process_files(target_type: str, loa: list[str], out: io.TextIOWrapper, req: csv.writer, input_dir: Path, sections: dict[str, Path], exclude_layers: list[str]) -> None:
     """Processes all files in the `input_dir` directory and subdirectories, and combines them into a single file in the `output_dir` directory.
 
     Args:
@@ -21,9 +40,13 @@ def process_files(target_type: str, loa: list[str], out: io.TextIOWrapper, req: 
         req: The requirements file.
         input_dir: The input directory.
         sections: A dictionary of section names to file paths.
+        exclude_layers: A layer or range of excluded layers.
     """
 
     for f in sorted(input_dir.glob("*.md")):
+        if is_excluded(f.name, exclude_layers):
+            continue
+
         section = get_section(f)
 
         # Skip BR sections that have a file that overrules the BR (i.e., 000_)
@@ -35,12 +58,20 @@ def process_files(target_type: str, loa: list[str], out: io.TextIOWrapper, req: 
             # Skip all files that are not of the target type or BR
             continue
 
+        # Open fenced div with layer hundred for non-root layer files
+        if not f.name.startswith('0'):
+            out.write("::::: layer-{}00\n".format(f.name[0]))
+
         process_file(f, target_type, loa, out, req, sections)
+
+        # Close fenced div for non-root layer files
+        if not f.name.startswith('0'):
+            out.write(":::::\n\n")
 
     # Process all files in the subdirectories
     for subdir in sorted(input_dir.iterdir()):
         if subdir.is_dir():
-            process_files(target_type, loa, out, req, subdir, sections)
+            process_files(target_type, loa, out, req, subdir, sections, exclude_layers)
 
 
 def process_file(file: Path, target_type: str, loa: list[str], out: io.TextIOWrapper, req: csv.writer, sections: dict[str, Path]) -> None:
@@ -126,12 +157,15 @@ def main():
                         help='input directory')
     parser.add_argument('-l', '--loa', nargs='*', default=['DV', 'OV', 'EV'], type=str,
                         help='level of assurance')
+    parser.add_argument('-e', '--exclude-layers', nargs='*', default=[], type=str,
+                        help='layers to exclude (e.g., 850 or 800-999)')
     args = parser.parse_args()
 
     target_type = args.target_type
     output_dir = Path(args.output)
     input_dir = Path(args.input)
     loa = args.loa
+    exclude_layers = args.exclude_layers
     sections = {}
 
     combined_output_file = output_dir / f"{target_type}.md"
@@ -150,7 +184,7 @@ def main():
                 section = get_section(f)
                 sections[section] = f.resolve()
 
-        process_files(target_type, loa, out, req, input_dir, sections)
+        process_files(target_type, loa, out, req, input_dir, sections, exclude_layers)
 
 
 if __name__ == '__main__':
