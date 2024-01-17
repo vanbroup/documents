@@ -8,8 +8,7 @@ from diff_match_patch import diff_match_patch
 
 # Define document types as constants
 output_folder = '../output/'
-DOCUMENT_TYPES = [os.path.splitext(file)[0] for file in os.listdir(output_folder) if file.endswith('.md')]
-
+DOCUMENT_TYPES = sorted([os.path.splitext(file)[0] for file in os.listdir(output_folder) if file.endswith('.md')])
 
 def get_section(file: Path) -> str:
     return ".".join([str(item).lstrip("0") for item in re.findall("(?<!_)([0-9]{3}|[0-9]{2}[A-Z])(?!_[A-Z])", file.resolve().__str__())])
