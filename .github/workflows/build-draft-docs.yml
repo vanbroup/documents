@@ -55,6 +55,7 @@ jobs:
             gh release create ${{ steps.get_version.outputs.version }} \
                 ${{ steps.build_doc.outputs.pdf_file }} \
                 ${{ steps.build_doc.outputs.pdf_redline_file }} \
+                --title "${{ matrix.document }} ${{ steps.get_version.outputs.version }}" \
                 --generate-notes \
                 --draft
         env:
