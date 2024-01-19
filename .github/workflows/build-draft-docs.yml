@@ -2,6 +2,8 @@ name: Build Draft Guidelines
 on: [push, pull_request, workflow_dispatch]
 jobs:
   build_docs:
+    permissions:
+      contents: write
     strategy:
       matrix:
         document:
@@ -36,3 +38,27 @@ jobs:
             ${{ steps.build_doc.outputs.docx_file }}
             ${{ steps.build_doc.outputs.pdf_redline_file }}
           if-no-files-found: 'error'
+
+      # TODO: It would be good to introduce a decidated version value in the frontmatter if we can use that to create the subtitle
+      - name: Get document version
+        id: get_version
+        run: |
+          version = `head -20 docs/BR.md | grep "subtitle: Version " | sed -e 's/subtitle: Version /v/'` 
+          echo Document ${{ matrix.document }} is at version $version
+          echo "version=${version}" >> $GITHUB_OUTPUT
+
+      # TODO: Split of the following into a separate job (and move permissions to that job)
+      # TODO: Rename files to include the version number
+      - name: Creates a release in GitHub and uploads final document and redline
+        #if: github.event.pull_request.base.ref == 'main' && github.event_name == 'push'
+        run: |
+            gh release create ${{ steps.get_version.outputs.version }} \
+                ${{ steps.build_doc.outputs.pdf_file }} \
+                ${{ steps.build_doc.outputs.pdf_redline_file }} \
+                --generate-notes \
+                --verify-tag \
+                --draft
+        env:
+          GITHUB_TOKEN: ${{ github.TOKEN }}
+
+
