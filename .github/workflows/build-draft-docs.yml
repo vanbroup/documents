@@ -56,7 +56,6 @@ jobs:
                 ${{ steps.build_doc.outputs.pdf_file }} \
                 ${{ steps.build_doc.outputs.pdf_redline_file }} \
                 --generate-notes \
-                --verify-tag \
                 --draft
         env:
           GITHUB_TOKEN: ${{ github.TOKEN }}
