@@ -43,7 +43,7 @@ jobs:
       - name: Get document version
         id: get_version
         run: |
-          version = `head -20 docs/BR.md | grep "subtitle: Version " | sed -e 's/subtitle: Version /v/'` 
+          version="`head -20 docs/${{ matrix.document }}.md | grep "subtitle: Version " | sed -e 's/subtitle: Version /v/'`"
           echo Document ${{ matrix.document }} is at version $version
           echo "version=${version}" >> $GITHUB_OUTPUT
 
