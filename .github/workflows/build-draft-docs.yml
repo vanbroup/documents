@@ -21,7 +21,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.base.sha || github.event.push.before }}
           path: old/
-      - uses: docker://ghcr.io/cabforum/build-guidelines-action:2.1.0
+      - uses: docker://ghcr.io/vanbroup/build-guidelines-action:sha-1871f0cd
         id: build_doc
         with:
           markdown_file: docs/${{ matrix.document }}.md
@@ -39,25 +39,17 @@ jobs:
             ${{ steps.build_doc.outputs.pdf_redline_file }}
           if-no-files-found: 'error'
 
-      # TODO: It would be good to introduce a decidated version value in the frontmatter if we can use that to create the subtitle
-      - name: Get document version
-        id: get_version
-        run: |
-          version="`head -20 docs/${{ matrix.document }}.md | grep "subtitle: Version " | sed -e 's/subtitle: Version /v/'`"
-          echo Document ${{ matrix.document }} is at version $version
-          echo "version=${version}" >> $GITHUB_OUTPUT
-
       # TODO: Split of the following into a separate job (and move permissions to that job)
-      # TODO: Rename files to include the version number
       - name: Creates a release in GitHub and uploads final document and redline
         #if: github.event.pull_request.base.ref == 'main' && github.event_name == 'push'
-        run: |
-            gh release create ${{ steps.get_version.outputs.version }} \
-                ${{ steps.build_doc.outputs.pdf_file }} \
-                ${{ steps.build_doc.outputs.pdf_redline_file }} \
-                --title "${{ matrix.document }} ${{ steps.get_version.outputs.version }}" \
-                --generate-notes \
-                --draft
+        run: |          
+          gh release create ${{ join(matrix.document, steps.build_doc.outputs.file_version) }} \
+              ${{ steps.build_doc.outputs.pdf_file }} \
+              ${{ steps.build_doc.outputs.pdf_redline_file }} \
+              --title "${{ matrix.document }} ${{ steps.get_version.outputs.version }}" \
+              --notes-from-tag ${{ steps.build_doc.outputs.diff_version }} \
+              --generate-notes \
+              --draft
         env:
           GITHUB_TOKEN: ${{ github.TOKEN }}
 
