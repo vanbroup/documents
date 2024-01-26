@@ -43,7 +43,8 @@ jobs:
       # --notes-from-tag ${{ steps.build_doc.outputs.diff_version }} \
       - name: Creates a release in GitHub and uploads final document and redline
         #if: github.event.pull_request.base.ref == 'main' && github.event_name == 'push'
-        run: |          
+        run: |
+          echo ${{ toJSON(steps.build_doc.outputs) }}
           gh release create ${{ join(matrix.document, steps.build_doc.outputs.file_version) }} \
               ${{ steps.build_doc.outputs.pdf_file }} \
               ${{ steps.build_doc.outputs.pdf_redline_file }} \
