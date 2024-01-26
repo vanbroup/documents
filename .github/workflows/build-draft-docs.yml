@@ -44,7 +44,7 @@ jobs:
       - name: Creates a release in GitHub and uploads final document and redline
         #if: github.event.pull_request.base.ref == 'main' && github.event_name == 'push'
         run: |
-          echo ${{ toJSON(steps.build_doc.outputs) }}
+          echo "${{ toJSON(steps.build_doc.outputs) }}"
           gh release create ${{ join(matrix.document, steps.build_doc.outputs.file_version) }} \
               ${{ steps.build_doc.outputs.pdf_file }} \
               ${{ steps.build_doc.outputs.pdf_redline_file }} \
