@@ -15,11 +15,14 @@ jobs:
     steps:
       - name: Checkout the code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Checkout old version for redline
         if: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.base.sha || github.event.push.before }}
+          fetch-depth: 0
           path: old/
       - uses: docker://ghcr.io/vanbroup/build-guidelines-action:latest
         id: build_doc
