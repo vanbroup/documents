@@ -45,11 +45,11 @@ jobs:
         #if: github.event.pull_request.base.ref == 'main' && github.event_name == 'push'
         run: |
           echo "${{ toJSON(steps.build_doc.outputs) }}"
-          gh release create ${{ join(matrix.document, steps.build_doc.outputs.file_version) }} \
+          gh release create ${{ format('{0}{1}', matrix.document, steps.build_doc.outputs.file_version) }} \
               ${{ steps.build_doc.outputs.pdf_file }} \
               ${{ steps.build_doc.outputs.pdf_redline_file }} \
-              --title "${{ matrix.document }} ${{ steps.get_version.outputs.version }}" \
-              --generate-notes \
+              --title "${{ matrix.document }} ${{ steps.build_doc.outputs.file_version }}" \
+              --notes "${{ steps.build_doc.outputs.changelog }}" \
               --draft
         env:
           GITHUB_TOKEN: ${{ github.TOKEN }}
