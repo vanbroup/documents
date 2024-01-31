@@ -8,8 +8,9 @@ jobs:
       matrix:
         document:
           - 'BR'
+          - 'CS'
           - 'EVG'
-          - 'NSR'
+          - 'SMIME'
     name: Build ${{ matrix.document }}
     runs-on: ubuntu-20.04
     steps:
@@ -27,8 +28,8 @@ jobs:
       - uses: docker://ghcr.io/vanbroup/build-guidelines-action:latest
         id: build_doc
         with:
-          markdown_file: docs/${{ matrix.document }}.md
-          diff_file: old/docs/${{ matrix.document }}.md
+          markdown_file: output/${{ matrix.document }}.md
+          diff_file: old/output/${{ matrix.document }}.md
           pdf: true
           docx: true
           lint: true
