@@ -544,19 +544,6 @@ As specified in EV Guidelines Section 11.11.
 
 As specified in EV Guidelines Section 11.12.3.
 
-#### 3.2.2.3 Verification of Country
-
-If the `subject:countryName` field is present, then the CA SHALL verify the country associated with the Subject using one of the following:
-
-  a. the IP Address range assignment by country for either
-     i. the web site's IP address, as indicated by the DNS record for the web site or
-     ii. the Applicant's IP address;
-  b. the ccTLD of the requested Domain Name;
-  c. information provided by the Domain Name Registrar; or
-  d. a method identified in [Section 3.2.2.1](#3221-identity).
-
-The CA SHOULD implement a process to screen proxy servers in order to prevent reliance upon IP addresses assigned in countries other than where the Applicant is actually located.
-
 #### 3.2.2.4 Validation of Domain Authorization or Control
 
 This section defines the permitted processes and procedures for validating the Applicant's ownership or control of the domain.
@@ -571,16 +558,6 @@ Completed validations of Applicant authority may be valid for the issuance of mu
 CAs SHALL maintain a record of which domain validation method, including relevant BR version number, they used to validate every domain.
 
 **Note**: FQDNs may be listed in Subscriber Certificates using `dNSName`s in the `subjectAltName` extension or in Subordinate CA Certificates via `dNSName`s in `permittedSubtrees` within the Name Constraints extension.
-
-#### 3.2.2.5 Authentication for an IP Address
-
-This section defines the permitted processes and procedures for validating the Applicant’s ownership or control of an IP Address listed in a Certificate.
-
-The CA SHALL confirm that prior to issuance, the CA has validated each IP Address listed in the Certificate using at least one of the methods specified in this section.
-
-Completed validations of Applicant authority may be valid for the issuance of multiple Certificates over time. In all cases, the validation must have been initiated within the time period specified in the relevant requirement (such as [Section 4.2.1](#421-performing-identification-and-authentication-functions) of this document) prior to Certificate issuance. For purposes of IP Address validation, the term Applicant includes the Applicant's Parent Company, Subsidiary Company, or Affiliate.
-
-After July 31, 2019, CAs SHALL maintain a record of which IP validation method, including the relevant BR version number, was used to validate every IP Address.
 
 #### 3.2.2.6 Wildcard Domain Validation
 
@@ -1712,26 +1689,6 @@ a. Extensions that do not apply in the context of the public Internet (such as a
 b. semantics that, if included, will mislead a Relying Party about the certificate information verified by the CA (such as including an `extKeyUsage` value for a smart card, where the CA is not able to verify that the corresponding Private Key is confined to such hardware due to remote issuance).
 
 
-#### 7.1.2.5 Technically Constrained TLS Subordinate CA Certificate Profile
-
-This Certificate Profile MAY be used when issuing a CA Certificate that will be considered Technically Constrained, and which will be used to issue TLS certificates directly or transitively.
-
-| __Field__                  | __Description__ |
-| ---                        | ------          |
-| `tbsCertificate`           | |
-|     `version`              | MUST be v3(2) |
-|     `serialNumber`         | MUST be a non-sequential number greater than zero (0) and less than 2¹⁵⁹ containing at least 64 bits of output from a CSPRNG. |
-|     `signature`            | See [Section 7.1.3.2](#7132-signature-algorithmidentifier) |
-|     `issuer`               | MUST be byte-for-byte identical to the `subject` field of the Issuing CA. See [Section 7.1.4.1](#7141-name-encoding) |
-|     `validity`             | See [Section 7.1.2.10.1](#712101-ca-certificate-validity) |
-|     `subject`              | See [Section 7.1.2.10.2](#712102-ca-certificate-naming) |
-|     `subjectPublicKeyInfo` | See [Section 7.1.3.1](#7131-subjectpublickeyinfo) |
-|     `issuerUniqueID`       | MUST NOT be present |
-|     `subjectUniqueID`      | MUST NOT be present |
-|     `extensions`           | See [Section 7.1.2.5.1](#71251-technically-constrained-tls-subordinate-ca-extensions) |
-| `signatureAlgorithm`       | Encoded value MUST be byte-for-byte identical to the `tbsCertificate.signature`. |
-| `signature`                | |
-
 #### 7.1.2.6 TLS Subordinate CA Certificate Profile
 
 | __Field__                  | __Description__ |
@@ -1990,23 +1947,6 @@ e. __Certificate Field:__ Subject Physical Address of Place of Business Fields
    __Required/Optional:__ Required  
    __Contents__: As specified in Section 9.2.6 of the EV Guidelines.
 
-#### 7.1.4.3 Subscriber Certificate Common Name Attribute
-
-If present, this attribute MUST contain exactly one entry that is one of the values contained in the Certificate's `subjectAltName` extension (see [Section 7.1.2.7.12](#712712-subscriber-certificate-subject-alternative-name)). The value of the field MUST be encoded as follows:
-
-  * If the value is an IPv4 address, then the value MUST be encoded as an IPv4Address as specified in RFC 3986, Section 3.2.2.
-  * If the value is an IPv6 address, then the value MUST be encoded in the text representation specified in RFC 5952, Section 4.
-  * If the value is a Fully-Qualified Domain Name or Wildcard Domain Name, then the value MUST be encoded as a character-for-character copy of the `dNSName` entry value from the `subjectAltName` extension. Specifically, all Domain Labels of the Fully-Qualified Domain Name or FQDN portion of the Wildcard Domain Name must be encoded as LDH Labels, and P-Labels MUST NOT be converted to their Unicode representation.
-
-#### 7.1.4.4 Other Subject Attributes
-
-When explicitly stated as permitted by the relevant certificate profile specified within [Section 7.1.2](#712-certificate-content-and-extensions), CAs MAY include additional attributes within the `AttributeTypeAndValue` beyond those specified in [Section 7.1.4.2](#7142-subject-attribute-encoding).
-
-Before including such an attribute, the CA SHALL:
-
-  * Document the attributes within Section 7.1.4 of their CP or CPS, along with the applicable validation practices.
-  * Ensure that the contents contain information that has been verified by the CA, independent of the Applicant.
-
 ### 7.1.5 Name constraints
 
 ### 7.1.6 Certificate policy object identifier
@@ -2074,24 +2014,6 @@ If a Code Signing Certificate previously has been revoked, and the CA later beco
 ### 7.2.2 CRL and CRL entry extensions
 
 If a CRL has a `thisUpdate` field value of 2022-07-01 00:00:00 UTC or later and the CA includes the Invalidity Date CRL entry extension in a CRL entry for a Code Signing Certificate, then the time encoded in the Invalidity Date CRL extension SHALL be equal to the time encoded in the `revocationDate` field of the CRL entry.
-
-#### 7.2.2.1 CRL Issuing Distribution Point
-
-Partitioned CRLs MUST contain an Issuing Distribution Point extension. The `distributionPoint` field of the Issuing Distribution Point extension MUST be present. Additionally, the `fullName` field of the DistributionPointName value MUST be present, and its value MUST conform to the following requirements:
-
-1. If a Certificate within the scope of the CRL contains a CRL Distribution Points extension, then at least one of the `uniformResourceIdentifiers` in the CRL Distribution Points's `fullName` field MUST be included in the `fullName` field of the CRL's Issuing Distribution Point extension. The encoding of the `uniformResourceIdentifier` value in the Issuing Distribution Point extension SHALL be byte-for-byte identical to the encoding used in the Certificate's CRL Distribution Points extension.
-2. Other GeneralNames of type `uniformResourceIdentifier` MAY be included.
-3. Non-`uniformResourceIdentifier` GeneralName types MUST NOT be included.
-
-The `indirectCRL` and `onlyContainsAttributeCerts` fields MUST be set to `FALSE` (i.e., not asserted).
-
-The CA MAY set either of the `onlyContainsUserCerts` and `onlyContainsCACerts` fields to `TRUE`, depending on the scope of the CRL. 
-
-The CA MUST NOT assert both of the `onlyContainsUserCerts` and `onlyContainsCACerts` fields. 
-
-The `onlySomeReasons` field SHOULD NOT be included; if included, then the CA MUST provide another CRL whose scope encompasses all revocations regardless of reason code. 
-
-This extension is NOT RECOMMENDED for full and complete CRLs.
 
 ## 7.3 OCSP profile
 
@@ -2342,7 +2264,6 @@ If a court or government body with jurisdiction over the activities covered by t
 ### 9.16.5 Force Majeure
 
 ## 9.17 Other provisions
-
 
 # Appendix A High risk regions of concern
 

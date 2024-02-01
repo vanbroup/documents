@@ -1,9 +1,3 @@
----
-targets:
-    included:
-        - SMIME
----
-
 ## A.2 Natural Person Identifier
 
 The following Registration Schemes are recognized as valid for use in the `subject:serialNumber` attribute described in [Section 7.1.4.2.2](#71422-subject-distinguished-name-fields).

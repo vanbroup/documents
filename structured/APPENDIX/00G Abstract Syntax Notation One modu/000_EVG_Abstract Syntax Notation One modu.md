@@ -1,9 +1,3 @@
----
-targets:
-    included:
-        - EVG
----
-
 # Appendix G – Abstract Syntax Notation One module for EV certificates
 
 ```ASN.1

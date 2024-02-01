@@ -1,9 +1,3 @@
----
-targets:
-    included:
-        - SMIME
----
-
 ## A.1 organizationIdentifier
 
 The following Registration Schemes are recognized as valid under these Requirements for use in the `subject:organizationIdentifier` attribute described in [Section 7.1.4.2.2](#71422-subject-distinguished-name-fields).

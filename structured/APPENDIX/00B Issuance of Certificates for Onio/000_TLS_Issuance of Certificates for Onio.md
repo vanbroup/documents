@@ -1,9 +1,3 @@
----
-targets:
-    included:
-        - BR
----
-
 # APPENDIX B – Issuance of Certificates for Onion Domain Names
 
 This appendix defines permissible verification procedures for including one or more Onion Domain Names in a Certificate.

@@ -1,9 +1,3 @@
----
-targets:
-    included:
-        - BR
----
-
 ### A.1.1. CAA contactemail Property
 
 SYNTAX: `contactemail <rfc6532emailaddress>`

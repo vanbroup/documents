@@ -1,9 +1,3 @@
----
-targets:
-    included:
-        - EVG
----
-
 # Appendix E - Sample Contract Signer's Representation/Warranty (Informative)
 
 A CA may rely on the Contract Signer's authority to enter into the Subscriber Agreement using a representation/warranty executed by the Contract Signer.  An example of an acceptable warranty is as follows:

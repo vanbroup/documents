@@ -1,9 +1,3 @@
----
-targets:
-    included:
-        - SMIME
----
-
 # Appendix B - Transition of Extant S/MIME CAs
 
 Following the Effective Date for v 1.0.0 of these Requirements (September 1, 2023) an Extant S/MIME CA MAY continue to issue end entity S/MIME Certificates that are compliant with these Requirements. 

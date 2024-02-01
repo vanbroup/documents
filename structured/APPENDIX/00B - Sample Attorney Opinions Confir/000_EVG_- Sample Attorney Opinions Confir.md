@@ -1,9 +1,3 @@
----
-targets:
-    included:
-        - EVG
----
-
 # Appendix B - Sample Attorney Opinions Confirming Specified Information
 
 **(Informative)**

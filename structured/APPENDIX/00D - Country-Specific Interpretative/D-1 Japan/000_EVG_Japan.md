@@ -1,9 +1,3 @@
----
-targets:
-    included:
-        - EVG
----
-
 #### D-1. Japan
 
 As interpretation of the procedures set out above:

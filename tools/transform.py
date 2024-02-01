@@ -62,6 +62,8 @@ def main():
                 title = re.sub('[0-9]{3}', '', title)
                 title = re.sub('\s+', ' ', title)
                 title = (title[:truncate]) if len(title) > truncate else title
+                title = title.strip(".")
+                title = title.strip("-")
                 title = title.strip()
 
                 section = t[1].strip(".").upper()
@@ -142,9 +144,9 @@ def main():
                     abbreviation, title)), "w", encoding="utf-8")
 
                 # the appendixes seem to be document specific for now
-                if appendix != "":
-                    file.write(
-                        "---\ntargets:\n    included:\n        - {}\n---\n\n".format(abbreviation))
+                # if appendix != "":
+                #     file.write(
+                #         "---\ntargets:\n    included:\n        - {}\n---\n\n".format(abbreviation))
 
                 file.write(line)
 

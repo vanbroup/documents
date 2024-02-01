@@ -1,9 +1,3 @@
----
-targets:
-    included:
-        - EVG
----
-
 ## 1. Organization Names
 
 1. Non-Latin Organization Name

@@ -1,9 +1,3 @@
----
-targets:
-    included:
-        - EVG
----
-
 # Appendix H – Registration Schemes
 
 The following Registration Schemes are currently recognized as valid under these

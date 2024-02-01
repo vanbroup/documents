@@ -113,7 +113,10 @@ def main():
 
     for dt in DOCUMENT_TYPES:
         try:
-            with open('../docs/'+ dt + '.md', 'r', encoding='utf-8') as source_file:
+            sd = dt
+            if dt == 'TLS':
+                sd = 'BR'
+            with open('../docs/'+ sd + '.md', 'r', encoding='utf-8') as source_file:
                 with open('../output/'+ dt + '.md', 'r', encoding='utf-8') as build_file:
                     source_content = source_file.read()
                     build_content = build_file.read()

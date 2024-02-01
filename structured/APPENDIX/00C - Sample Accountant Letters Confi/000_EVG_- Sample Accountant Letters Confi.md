@@ -1,9 +1,3 @@
----
-targets:
-    included:
-        - EVG
----
-
 # Appendix C - Sample Accountant Letters Confirming Specified Information
 
 **(Informative)**

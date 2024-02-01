@@ -1,9 +1,3 @@
----
-targets:
-    included:
-        - EVG
----
-
 ## UNITED STATES
 
 To the [Certification Authority] and Management of [Client]:

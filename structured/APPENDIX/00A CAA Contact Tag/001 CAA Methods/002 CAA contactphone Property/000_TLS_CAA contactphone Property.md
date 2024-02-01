@@ -1,9 +1,3 @@
----
-targets:
-    included:
-        - BR
----
-
 ### A.1.2. CAA contactphone Property
 
 SYNTAX: `contactphone <rfc3966 Global Number>`
