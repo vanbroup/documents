@@ -12,7 +12,7 @@ py transform.py ../docs/CS.md
 py transform.py ../docs/SMIME.md
 
 echo "Change known BR TLS specific files to TLS"
-find ../structured/APPENDIX/ -type f -name "000_BR_*.md" -exec sh -c 'mv "$1" "${1//_BR_/_TLS_}"' _ {} \;
+find ../structured/APPENDIX/ -type f -name "000_BR_*.md" -exec sh -x -c 'mv "$1" "${1//_BR_/_TLS_}"' _ {} \;
 
 echo "Removing duplicates"
 
