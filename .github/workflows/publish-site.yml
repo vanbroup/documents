@@ -34,7 +34,6 @@ jobs:
       - name: Build HTML output
         run: |
           cd ./tools
-          alias py=python
           ./run.sh
 
       - name: Upload artifact
