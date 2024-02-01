@@ -34,10 +34,7 @@ jobs:
       - name: Build HTML output
         run: |
           cd ./tools
-          mkdir -p ../public
-          cp -r testlayers/* ../structured/
-          python duplicates.py > ../duplicates.md
-          python tohtml.py -out ../public/
+          ./run.sh
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
