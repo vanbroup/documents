@@ -107,6 +107,9 @@ def main():
                 f.write(output)
 
     for section in sections:
+        if section.__len__() == 0:
+            continue
+        
         template = env.get_template('all/index.html')
         output = template.render(
             sections=sections,

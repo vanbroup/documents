@@ -1,11 +1,11 @@
 {% include 'includes/header.html' %}
 
 <main>
-{% for section, files_dict in sections.items() %}
-    {% if section.startswith(sectionPrefix) %}
-        {% include 'includes/section.html' %}
-    {% endif %}
-{% endfor %}
+    {% for section, files_dict in sections.items() %}
+        {% if section.startswith(sectionPrefix) %}
+            {% include 'includes/section.html' %}
+        {% endif %}
+    {% endfor %}
 </main>
 
 {% include 'includes/sections-scripts.html' %}
