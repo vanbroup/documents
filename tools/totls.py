@@ -8,7 +8,7 @@ from diff_match_patch import diff_match_patch
 output_folder = '../output/'
 DOCUMENT_TYPES = sorted([os.path.splitext(file)[0] for file in os.listdir(output_folder) if file.endswith('.md')])
 
-brtls = ['3.2.2.4']
+brtls = ['3.2.2.4','3.2.2.6','3.2.2.7','3.2.2.8']
 
 def get_section(file: Path) -> str:
     return ".".join([str(item).lstrip("0") for item in re.findall("(?<!_)([0-9]{3}|[0-9]{2}[A-Z])(?!_[A-Z])", file.resolve().__str__())])
