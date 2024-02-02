@@ -1,50 +1,59 @@
 #!/bin/sh
 
-echo "Removing old documents"
-
+echo "::group::Remove existing structured documents"
 rm -rf ../structured/*
+echo "::endgroup::"
 
-echo "Tranforming documents"
-
+echo "::group::Tranforming documents"
 python transform.py ../docs/BR.md
 python transform.py ../docs/EVG.md
 python transform.py ../docs/CS.md
 python transform.py ../docs/SMIME.md
+echo "::endgroup::"
 
-echo "Change known BR TLS specific files to TLS"
+echo "::group::Change known BR TLS specific files to TLS"
 find ../structured/APPENDIX/ -type f -name "000_BR_*.md" -exec sh -x -c 'mv "$1" "${1//_BR_/_TLS_}"' _ {} \;
+echo "::endgroup::"
 
-echo "Removing duplicates"
-
+echo "::group::Remove duplicates"
 python duplicates.py > ../duplicates.md
+echo "::endgroup::"
 
-echo "Adding examples"
+echo "::group::Add examples"
 cp -r testlayers/* ../structured/
+echo "::endgroup::"
 
-echo "Building documents"
-
+echo "::group::Build documents"
 python build.py BR
 python build.py EVG
 python build.py CS
 python build.py SMIME
+echo "::endgroup::"
 
-echo "Change Baseline Requirements files to TLS that should end up in the other documents"
+echo "::group::Change Baseline Requirements files to TLS that should end up in the other documents"
 python totls.py
+echo "::endgroup::"
 
-echo "Using BR main document as a template for TLS"
+echo "::group::Using BR main document as a template for TLS"
 cp ../structured/000_BR.md ../structured/000_TLS.md
 sed -i 's/Certificates/TLS Certificates/g' ../structured/000_TLS.md
+echo "::endgroup::"
 
-echo "Building documents again"
+echo "::group::Remove output"
 rm -f ../output/*
+echo "::endgroup::"
 
+echo "::group::Building documents again"
 python build.py BR
 python build.py EVG
 python build.py CS
 python build.py SMIME
 python build.py TLS
+echo "::endgroup::"
 
+echo "::group::Create HTML pages"
 mkdir -p ../public
 python tohtml.py -out ../public/
+echo "::endgroup::"
 
 echo "Done"
