@@ -23,11 +23,16 @@ def process_files(input_dir: Path, sections: dict[str, dict[str, Path]]) -> None
         type = rt.group(1)
         section = get_section(f)
         if type == 'BR':
-            for sec in brtls:
-                if section.startswith(sec) or "APPENDIX" in str(f):
-                    os.rename(f, str(f).replace('_BR_', '_TLS_'))
-                    print(f, section, sec)
+            if "APPENDIX" in str(f):
+                os.rename(f, str(f).replace('_BR_', '_TLS_'))
+                    print(f, section)
                     type = 'TLS'
+            else:
+                for sec in brtls:
+                    if section.startswith(sec):
+                        os.rename(f, str(f).replace('_BR_', '_TLS_'))
+                        print(f, section, sec)
+                        type = 'TLS'
 
         if section not in sections:
             sections[section] = {'BR': [], type: []}
