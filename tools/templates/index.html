@@ -1,26 +1,14 @@
 {% include 'includes/header.html' %}
 
-Only show section:
-<u>
-    <li><a href="/documents/sections/1/">1 INTRODUCTION</a></li>
-    <li><a href="/documents/sections/2/">2 PUBLICATION AND REPOSITORY RESPONSIBILITIES</a></li>
-    <li><a href="/documents/sections/3/">3 IDENTIFICATION AND AUTHENTICATION</a></li>
-    <li><a href="/documents/sections/4/">4 CERTIFICATE LIFE-CYCLE OPERATIONAL REQUIREMENTS</a></li>
-    <li><a href="/documents/sections/5/">5 FACILITY, MANAGEMENT, AND OPERATIONAL CONTROLS</a></li>
-    <li><a href="/documents/sections/6/">6 TECHNICAL SECURITY CONTROLS</a></li>
-    <li><a href="/documents/sections/7/">7 CERTIFICATE, CRL, AND OCSP PROFILES</a></li>
-    <li><a href="/documents/sections/8/">8 COMPLIANCE AUDIT AND OTHER ASSESSMENTS</a></li>
-    <li><a href="/documents/sections/9/">9 OTHER BUSINESS AND LEGAL MATTERS</a></li>
-</u>
-
 <main>
-{% for section, files_dict in sections.items() %}
-    {% if section.startswith(sectionPrefix) %}
-        {% include 'includes/section.html' %}
-    {% endif %}
-{% endfor %}
+    Loading all documents in one view might slow down your browser, therefore its recommended to navigate to a specific section of the documents using the index below. 
+    
+    If you still want to load all documents, <a href="/documents/all/">click here</a>.
+    <u>
+    {% for section, files_dict in sections.items() %}
+        <li style="margin-left: {{ section|length }}px;"><a href="/documents/{{ section }}/">{{ section }}</a></li>
+    {% endfor %}
+    </u>
 </main>
-
-{% include 'includes/sections-scripts.html' %}
 
 {% include 'includes/footer.html' %}
