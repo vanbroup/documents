@@ -32,6 +32,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r ./tools/requirements.txt
       - name: Build HTML output
+        shell: bash
         run: |
           cd ./tools
           ./run.sh
