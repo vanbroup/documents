@@ -11,9 +11,9 @@ python transform.py ../docs/CS.md
 python transform.py ../docs/SMIME.md
 echo "::endgroup::"
 
-echo "::group::Change known BR TLS specific files to TLS"
-find ../structured/APPENDIX/ -type f -name "000_BR_*.md" -exec bash -x -c 'mv -v "$1" "${1//_BR_/_TLS_}"' _ {} \;
-echo "::endgroup::"
+# echo "::group::Change known BR TLS specific files to TLS"
+# find ../structured/APPENDIX/ -type f -name "000_BR_*.md" -exec bash -x -c 'mv -v "$1" "${1//_BR_/_TLS_}"' _ {} \;
+# echo "::endgroup::"
 
 echo "::group::Remove duplicates"
 python duplicates.py | tee ../duplicates.md
