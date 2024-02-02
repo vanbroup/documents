@@ -25,8 +25,8 @@ def process_files(input_dir: Path, sections: dict[str, dict[str, Path]]) -> None
         if type == 'BR':
             if "APPENDIX" in str(f):
                 os.rename(f, str(f).replace('_BR_', '_TLS_'))
-                    print(f, section)
-                    type = 'TLS'
+                print(f, section)
+                type = 'TLS'
             else:
                 for sec in brtls:
                     if section.startswith(sec):
