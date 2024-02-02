@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "::group::Remove existing structured documents"
 rm -rf ../structured/*
