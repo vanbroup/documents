@@ -91,6 +91,7 @@ def main():
             # {{ markdown_to_html(file_paths[0].read_text(encoding='utf-8')) }}
             output = template.render(
                 sections=sections,
+                sectionPrefix='',
                 document_types=DOCUMENT_TYPES,
                 markdown_to_html=markdown_to_html,
                 read_markdown=read_markdown,
@@ -105,6 +106,19 @@ def main():
             with open(os.path.join(output_dir, filename), 'w', encoding='utf-8') as f:
                 f.write(output)
 
+    for i in range(1, 10):
+        template = env.get_template('index.html')
+        output = template.render(
+            sections=sections,
+            sectionPrefix=str(i),
+            document_types=DOCUMENT_TYPES,
+            markdown_to_html=markdown_to_html,
+            read_markdown=read_markdown,
+            similarity=similarity
+        )
+        os.makedirs(os.path.join(args.output, "sections/{}".format(i)), exist_ok=True)
+        with open(os.path.join(args.output, "sections/{}/index.html".format(i)), 'w', encoding='utf-8') as f:
+            f.write(output)
 
     template = env.get_template('includes/diff.html')
 
