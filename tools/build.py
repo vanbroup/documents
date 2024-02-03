@@ -60,7 +60,7 @@ def process_files(target_type: str, loa: list[str], out: io.TextIOWrapper, req: 
 
         # Open fenced div with layer hundred for non-root layer files
         if not f.name.startswith('0'):
-            out.write("::::: layer-{}00\n".format(f.name[0]))
+            out.write('::::: {custom-style="layer-{}00"}\n'.format(f.name[0]))
 
         process_file(f, target_type, loa, out, req, sections)
 
