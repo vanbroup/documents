@@ -25,6 +25,19 @@ def markdown_to_html(markdown_text):
     # Use the tables extension to convert Markdown tables to HTML
     return markdown.markdown(markdown_text, extensions=['abbr', 'fenced_code', 'tables', 'toc'])
 
+def diff_prettyHtml(self, diffs):
+    html = []
+    for (op, data) in diffs:
+        text = (data.replace("&", "&amp;").replace("<", "&lt;")
+                    .replace(">", "&gt;").replace("\n", "&para;<br>\n"))
+        if op == self.DIFF_INSERT:
+            html.append("<ins style=\"background:#e6ffe6;\">%s</ins>" % text)
+        elif op == self.DIFF_DELETE:
+            html.append("<del style=\"background:#ffe6e6;\">%s</del>" % text)
+        elif op == self.DIFF_EQUAL:
+            html.append("%s" % text)
+    return "".join(html)
+
 def process_files(input_dir: Path, sections: dict[str, dict[str, Path]]) -> None:
     for f in sorted(input_dir.glob("*.md")):
         rt = re.search("\_([A-Z]{2,8})(_|\.md)", f.name)
@@ -142,7 +155,24 @@ def main():
                         diffs = dmp.diff_main(source_content, build_content)
                         dmp.diff_cleanupSemantic(diffs)
 
-                        diff_html = dmp.diff_prettyHtml(diffs)
+                        diff_html = diff_prettyHtml(dmp, diffs)
+
+                        in_change = False
+                        new_lines = []
+                        for line in diff_html.split('\n'):
+                            if '<ins' in line or '<del' in line:
+                                in_change = True
+                            if not in_change:
+                                line = f'<span>{line}</span>'
+                            else:
+                                line = line
+                            
+                            if '</ins>' in line or '</del>' in line:
+                                in_change = False
+
+                            new_lines.append(line)
+
+                        diff_html = ''.join(new_lines)
 
                         # Calculate similarity
                         levenshtein = dmp.diff_levenshtein(diffs)
