@@ -9,7 +9,7 @@ from src import structure
 output_folder = '../output/'
 DOCUMENT_TYPES = sorted([os.path.splitext(file)[0] for file in os.listdir(output_folder) if file.endswith('.md')])
 
-brtls = ['3.2.2.4','3.2.2.5','3.2.2.6','3.2.2.7','3.2.2.8','7.1.2']
+brtls = ['3.2.2.3','3.2.2.4','3.2.2.5','3.2.2.6','3.2.2.7','3.2.2.8','7.1.2']
 
 def process_files(input_dir: Path, sections: dict[str, dict[str, Path]]) -> None:
     for f in sorted(input_dir.glob("*.md")):
