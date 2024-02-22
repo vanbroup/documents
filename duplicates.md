@@ -641,7 +641,7 @@
 | 7.1.2.1  | EVG   |            3.4 | Different title |
 | 7.1.2.1  | SMIME |           3.78 | Different title |
 | 7.1.2.2  | CS    |           2.44 | Different title |
-| 7.1.2.2  | EVG   |           1.97 | Different title |
+| 7.1.2.2  | EVG   |           4.67 | Different title |
 | 7.1.2.2  | SMIME |           1.57 | Different title |
 | 7.1.2.3  | CS    |           2.89 | Different title |
 | 7.1.2.3  | SMIME |           1.94 | Different title |

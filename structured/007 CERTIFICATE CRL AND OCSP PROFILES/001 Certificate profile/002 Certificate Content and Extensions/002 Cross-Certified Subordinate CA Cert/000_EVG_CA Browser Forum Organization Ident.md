@@ -30,5 +30,5 @@ CABFOrganizationIdentifier ::= SEQUENCE {
 }
 ```
 
-where the subfields have the same values, meanings, and restrictions described in [Section 7.1.4.2.1](#71428-subject-organization-identifier-field). The CA SHALL validate the contents using the requirements in [Section 7.1.4.2.1](#71428-subject-organization-identifier-field).
+where the subfields have the same values, meanings, and restrictions described in [Section 7.1.4.2.8](#71428-subject-organization-identifier-field). The CA SHALL validate the contents using the requirements in [Section 7.1.4.2.8](#71428-subject-organization-identifier-field).
 
