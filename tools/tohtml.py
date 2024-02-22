@@ -5,13 +5,11 @@ import argparse
 from pathlib import Path
 import markdown
 from diff_match_patch import diff_match_patch
+from src import structure
 
 # Define document types as constants
 output_folder = '../output/'
 DOCUMENT_TYPES = sorted([os.path.splitext(file)[0] for file in os.listdir(output_folder) if file.endswith('.md')])
-
-def get_section(file: Path) -> str:
-    return ".".join([str(item).lstrip("0") for item in re.findall("(?<!_)([0-9]{3}|[0-9]{2}[A-Z])(?!_[A-Z])", file.resolve().__str__())])
 
 def read_markdown(filename):
     with open(filename, encoding="utf-8") as source_file:
@@ -38,30 +36,6 @@ def diff_prettyHtml(self, diffs):
             html.append("%s" % text)
     return "".join(html)
 
-def process_files(input_dir: Path, sections: dict[str, dict[str, Path]]) -> None:
-    for f in sorted(input_dir.glob("*.md")):
-        rt = re.search("\_([A-Z]{2,8})(_|\.md)", f.name)
-        if rt is None:
-            print("Invalid filename {}".format(f.name))
-            continue  # Skip invalid filenames
-
-        type = rt.group(1)
-        section = get_section(f)
-        if section not in sections:
-            sections[section] = {'BR': [], type: []}
-        else:
-            # Ensure 'type' key is present in the dictionary
-            sections[section].setdefault(type, [])
-
-        sections[section][type].append(f)
-
-    # Process all files in the subdirectories
-    for subdir in sorted(input_dir.iterdir()):
-        if subdir.is_dir():
-            sections = process_files(subdir, sections)
-
-    return sections
-
 def main():
     parser = argparse.ArgumentParser(
         description='Remove files that have the same content as the Baseline Requirements')
@@ -72,7 +46,7 @@ def main():
     args = parser.parse_args()
 
     sections = {}
-    sections = process_files(Path(args.input), sections)
+    sections = structure.get_sections(Path(args.input), sections)
 
     # Load the Jinja2 template environment with 'do' extension
     env = Environment(loader=FileSystemLoader('templates'), extensions=['jinja2.ext.do'])

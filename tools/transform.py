@@ -2,10 +2,7 @@ import os
 import re
 import argparse
 from pathlib import Path
-
-
-def get_section(file: Path) -> str:
-    return ".".join([str(item).lstrip("0") for item in re.findall("([0-9]{3}|[0-9]{2}[A-Z]) ", file.resolve().__str__())])
+from src import structure
 
 
 def main():
@@ -43,7 +40,7 @@ def main():
     objects = sorted(p.rglob("*"))
     for o in objects:
         if o.is_dir():
-            section = get_section(o)
+            section = structure.get_section(o)
             sections[section] = o.resolve()
 
     # Parse the given document

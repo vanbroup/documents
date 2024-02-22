@@ -5,10 +5,7 @@ import re
 import argparse
 from pathlib import Path
 import frontmatter
-
-
-def get_section(file: Path) -> str:
-    return ".".join([str(item).lstrip("0") for item in re.findall("(?<!_)([0-9]{3}|[0-9]{2}[A-Z])(?!_[A-Z])", file.resolve().__str__())])
+from src import structure
 
 def is_excluded(filename: str, exclusions: list[str]) -> bool:
     """Check if the filename matches any of the exclusions."""
@@ -47,12 +44,16 @@ def process_files(target_type: str, loa: list[str], out: io.TextIOWrapper, req: 
         if is_excluded(f.name, exclude_layers):
             continue
 
-        section = get_section(f)
+        section = structure.get_section(f)
 
         # Skip BR sections that have a file that overrules the BR (i.e., 000_)
-        if re.match("[0-9]{3}_BR", f.name):
-            if section in sections:
+        if re.match("([0-9]{3}_)*[0-9]{3}_BR", f.name):
+            # Do not inherit the header file
+            if target_type != "BR" and section == "":
                 continue
+            if section in sections:
+                if target_type in section:
+                    continue
 
         elif not f.name.__contains__("_{}".format(target_type)):
             # Skip all files that are not of the target type or BR
@@ -60,7 +61,7 @@ def process_files(target_type: str, loa: list[str], out: io.TextIOWrapper, req: 
 
         # Open fenced div with layer hundred for non-root layer files
         if not f.name.startswith('0'):
-            out.write('::: {custom-style="layer-{}00"}\n'.format(f.name[0]))
+            out.write('::: layer-{}00\n'.format(f.name[0]))
 
         process_file(f, target_type, loa, out, req, sections)
 
@@ -86,7 +87,7 @@ def process_file(file: Path, target_type: str, loa: list[str], out: io.TextIOWra
         sections: A dictionary of section names to file paths.
     """
     file_loa = ''
-    section = get_section(file)
+    section = structure.get_section(file)
 
     with open(file, 'r', encoding="utf-8") as f:
         for line in f:
@@ -166,7 +167,6 @@ def main():
     input_dir = Path(args.input)
     loa = args.loa
     exclude_layers = args.exclude_layers
-    sections = {}
 
     combined_output_file = output_dir / f"{target_type}.md"
     requirements_file = output_dir / f"{target_type}_requirements.csv"
@@ -175,14 +175,7 @@ def main():
         req = csv.writer(rf, quoting=csv.QUOTE_ALL)
         req.writerow(['ID', 'Section', 'LoA', 'Type', 'Requirement'])
 
-        # Index all sections for the target document type
-        if target_type != "BR":
-            for f in sorted(input_dir.rglob("*.md")):
-                if not f.name.__contains__("000_{}".format(target_type)):
-                    continue
-
-                section = get_section(f)
-                sections[section] = f.resolve()
+        sections = structure.get_sections(input_dir, {})
 
         process_files(target_type, loa, out, req, input_dir, sections, exclude_layers)
 
