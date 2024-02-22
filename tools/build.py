@@ -48,7 +48,7 @@ def process_files(target_type: str, loa: list[str], out: io.TextIOWrapper, req: 
         section = structure.get_section(f)
 
         # Skip BR sections that have a file that overrules the BR (i.e., 000_)
-        if re.match("([0-9]{3}_)*[0-9]{3}_BR", f.name):
+        if re.match("([0-9]{3}_)*[0-9]{3}_BR", f.name) and target_type != "BR":
             logging.debug("Checking if file '{}' for section {} has a file that overrules it".format(f.name, section))
 
             # Do not inherit the header file
