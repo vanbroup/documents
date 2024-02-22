@@ -140,6 +140,13 @@ def main():
                                     new_lines.append('</span>')
                                     new_lines.append('<span class="diff">')
                           
+                            # Turn sections into links
+                            if line.startswith("#"):
+                                t = re.sub('\s+', ' ', line).split(" ", 2)
+                                section = re.sub(r'[^0-9.]', '', t[1]).strip(".").strip().upper()
+                                if section != "":
+                                    line = '<a href="{}/">{}</a>'.format(section, line)
+
                             new_lines.append(line)
 
                             if '</ins>' in line or '</del>' in line:
