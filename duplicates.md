@@ -884,3 +884,10 @@
 | 9.17     | CS    |          100.0 |             |
 | 9.17     | EVG   |          100.0 |             |
 | 9.17     | SMIME |          100.0 |             |
+| A        | CS    |           7.64 | Different title |
+| A        | EVG   |           6.37 | Different title |
+| A        | SMIME |          30.34 | Different title |
+| A.1      | SMIME |           0.54 | Different title |
+| A.2      | SMIME |            1.3 | Different title |
+| B        | EVG   |           1.09 | Different title |
+| B        | SMIME |           1.14 | Different title |
