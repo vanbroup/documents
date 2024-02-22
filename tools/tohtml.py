@@ -132,19 +132,20 @@ def main():
                         diff_html = diff_prettyHtml(dmp, diffs)
 
                         in_change = False
-                        new_lines = []
+                        new_lines = ['<span class="equal">']
                         for line in diff_html.split('\n'):
-                            if '<ins' in line or '<del' in line:
-                                in_change = True
                             if not in_change:
-                                line = f'<span>{line}</span>'
-                            else:
-                                line = line
-                            
+                                if '<ins' in line or '<del' in line:
+                                    in_change = True
+                                    new_lines.append('</span>')
+                                    new_lines.append('<span class="diff">')
+                          
+                            new_lines.append(line)
+
                             if '</ins>' in line or '</del>' in line:
                                 in_change = False
-
-                            new_lines.append(line)
+                                new_lines.append('</span>')
+                                new_lines.append('<span class="equal">')
 
                         diff_html = ''.join(new_lines)
 

@@ -14,7 +14,7 @@
 
 <script>
     function toggleUnchangedVisibility(type) {
-        const elements = document.querySelectorAll('main .diffContent span');
+        const elements = document.querySelectorAll('main .diffContent .equal');
         elements.forEach(element => {
             element.classList.toggle('hidden');
         });
@@ -28,11 +28,11 @@
         var changes = 0;
         var toc = ''
 
-        document.querySelector("main").querySelectorAll("ins, del").forEach(function (change) {
+        document.querySelectorAll("main .diffContent .diff").forEach(function (change) {
             changes++;
 
             change.setAttribute("id", changes);        
-            toc += "<li><a href=\"#" + changes + "\">"+ change.nodeName.toLowerCase() + " " + changes + "</a></li>";
+            toc += "<li><a href=\"#" + changes + "\">" + changes + ": \"" + change.textContent.substring(0, 40).replaceAll('¶',' ') + "\"</a></li>";
         });
 
         document.getElementById("nrChanges").innerText = changes;
