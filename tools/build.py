@@ -5,6 +5,7 @@ import re
 import argparse
 from pathlib import Path
 import frontmatter
+import logging
 from src import structure
 
 def is_excluded(filename: str, exclusions: list[str]) -> bool:
@@ -48,11 +49,16 @@ def process_files(target_type: str, loa: list[str], out: io.TextIOWrapper, req: 
 
         # Skip BR sections that have a file that overrules the BR (i.e., 000_)
         if re.match("([0-9]{3}_)*[0-9]{3}_BR", f.name):
+            logging.debug("Checking if file '{}' for section {} has a file that overrules it".format(f.name, section))
+
             # Do not inherit the header file
             if target_type != "BR" and section == "":
+                logging.debug("Skipping file '{}' as it's a header".format(f.name))
                 continue
             if section in sections:
-                if target_type in section:
+                logging.debug("Section '{}' exists: {}".format(section, sections[section]))
+                if target_type in sections[section]:
+                    logging.debug("Target {} has a section {} that overrules the BRs".format(target_type, section))
                     continue
 
         elif not f.name.__contains__("_{}".format(target_type)):
@@ -160,7 +166,13 @@ def main():
                         help='level of assurance')
     parser.add_argument('-e', '--exclude-layers', nargs='*', default=[], type=str,
                         help='layers to exclude (e.g., 850 or 800-999)')
+    parser.add_argument('-v', '--verbose', action='store_true', 
+                        help='verbose output for debugging purposes')
+
     args = parser.parse_args()
+
+    # Set level of logger
+    logging.basicConfig(level=logging.DEBUG if args.verbose else logging.WARNING, format='%(levelname)s - %(message)s')
 
     target_type = args.target_type
     output_dir = Path(args.output)
