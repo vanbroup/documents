@@ -94,7 +94,7 @@ def main():
                     #    diff_description = "No differences."
 
                     # Align the percentage column to the right
-                    print("| {:<8} | {:<5} | {:>14} | {:<11} |".format(section, type, similarity_percentage, diff_description))
+                    print("| [{0:<8}](../{0}/) | {1:<5} | {2:>14} | {3:<11} |".format(section, type, similarity_percentage, diff_description))
                     
                     if similarity_percentage == 100:
                         sections[type][section].unlink()
