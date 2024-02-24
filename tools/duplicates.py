@@ -11,8 +11,6 @@ def get_section(file: Path) -> str:
 
 def compare_texts(text1, text2):
     differences_str = ""
-    if text1.partition('\n')[0].lower() != text2.partition('\n')[0].lower():
-        differences_str = "Different title than BRs"
     
     # Remove punctuation, spaces, and newlines from the texts
     replace_chars = " \t\n\r\f\v"
@@ -72,27 +70,34 @@ def main():
                 
                 sections[type][section] = f.resolve()
 
-    print("| Section  | Type  | Similarity (%) | Differences |")
-    print("|:---------|:-----:|---------------:|:------------|")
+    print("| Section  | Title | Type  | Similarity (%) | Differences |")
+    print("|:---------|:------|:-----:|---------------:|:------------|")
 
     for section, br_file in br_files.items():
         for type, file in sections.items():
             if type != 'BR' and section in file:
                 try:
-                    with br_file.open(encoding="utf-8") as source_file:
+                    with br_file.open(encoding='utf-8') as source_file:
                         source = source_file.read()
 
-                    with file[section].open(encoding="utf-8") as copy_file:
+                    with file[section].open(encoding='utf-8') as copy_file:
                         copy = copy_file.read()
-
-                    # Use difflib to compare the cleaned texts
-                    similarity_percentage, diff_description = compare_texts(source, copy)
-
-                    title = copy.partition('\n')[0].strip("# ").strip(section).strip(". ")
+    
+                    diff_description = ""
+                    source_title = source.partition('\n')[0].strip("# ").strip(section).strip(". ")
+                    copy_title = copy.partition('\n')[0].strip("# ").strip(section).strip(". ")
+                    if source_title.lower() != copy_title.lower():
+                        diff_description = "Title doesn not match BRs `{}`".format(source_title)
+                                        
                     rfc3247_title = rfc3247.get_section(section)
                     rfc3247_clean_title = rfc3247.get_clean_section(section)
-                    if rfc3247_title and not title.lower().endswith(rfc3247_title.lower()) and not title.lower().endswith(rfc3247_clean_title.lower()):
-                        diff_description = "Title `{}` does not match with RFC 3247 `{}`; {}".format(title, rfc3247_title, diff_description)
+                    if rfc3247_title and not copy_title.lower().endswith(rfc3247_title.lower()) and not copy_title.lower().endswith(rfc3247_clean_title.lower()):
+                        if diff_description != "":
+                            diff_description += "; "
+                        diff_description += "Title does not match RFC 3247 `{}`".format(rfc3247_title)    
+                    
+                    # Use difflib to compare the cleaned texts
+                    similarity_percentage, _ = compare_texts(source, copy)
 
                     # If similarity_percentage is less than 100, generate AI description of differences
                     # if similarity_percentage < 100:
@@ -101,7 +106,7 @@ def main():
                     #    diff_description = "No differences."
 
                     # Align the percentage column to the right
-                    print("| [{0:<8}](../{0}/) | {1:<5} | {2:>14} | {3:<11} |".format(section, type, similarity_percentage, diff_description))
+                    print("| [{0}](../{0}/) | {1} | {2:<5} | {3:>14} | {4:<11} |".format(section, copy_title, type, similarity_percentage, diff_description))
                     
                     if similarity_percentage == 100:
                         sections[type][section].unlink()
