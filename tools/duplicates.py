@@ -3,6 +3,7 @@ import argparse
 import string
 import difflib
 from pathlib import Path
+from src import rfc3247
 #from transformers import pipeline
 
 def get_section(file: Path) -> str:
@@ -11,7 +12,7 @@ def get_section(file: Path) -> str:
 def compare_texts(text1, text2):
     differences_str = ""
     if text1.partition('\n')[0].lower() != text2.partition('\n')[0].lower():
-        differences_str = "Different title"
+        differences_str = "Different title than BRs"
     
     # Remove punctuation, spaces, and newlines from the texts
     replace_chars = " \t\n\r\f\v"
@@ -72,7 +73,7 @@ def main():
                 sections[type][section] = f.resolve()
 
     print("| Section  | Type  | Similarity (%) | Differences |")
-    print("|:---------|:-----:|---------------:|:-----------:|")
+    print("|:---------|:-----:|---------------:|:------------|")
 
     for section, br_file in br_files.items():
         for type, file in sections.items():
@@ -86,6 +87,12 @@ def main():
 
                     # Use difflib to compare the cleaned texts
                     similarity_percentage, diff_description = compare_texts(source, copy)
+
+                    title = copy.partition('\n')[0].strip("# ").strip(section).strip(". ")
+                    rfc3247_title = rfc3247.get_section(section)
+                    rfc3247_clean_title = rfc3247.get_clean_section(section)
+                    if rfc3247_title and not title.lower().endswith(rfc3247_title.lower()) and not title.lower().endswith(rfc3247_clean_title.lower()):
+                        diff_description = "Title `{}` does not match with RFC 3247 `{}`; {}".format(title, rfc3247_title, diff_description)
 
                     # If similarity_percentage is less than 100, generate AI description of differences
                     # if similarity_percentage < 100:
