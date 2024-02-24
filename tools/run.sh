@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export PYTHONUTF8=1
+
 echo "::group::Remove existing structured documents"
 rm -rf ../structured/*
 echo "::endgroup::"

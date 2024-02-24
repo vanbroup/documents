@@ -12,7 +12,7 @@ output_folder = '../output/'
 DOCUMENT_TYPES = sorted([os.path.splitext(file)[0] for file in os.listdir(output_folder) if file.endswith('.md')])
 
 def read_markdown(filename):
-    with open(filename, encoding="utf-8") as source_file:
+    with open(filename, 'r', encoding='utf-8') as source_file:
         return source_file.read()
 
 def markdown_to_html(markdown_text):
@@ -58,7 +58,7 @@ def main():
     
     # Include similarity/duplicate information
     similarity = ""
-    with open('../duplicates.md', encoding="utf-8") as source_file:
+    with open('../duplicates.md', 'r', encoding='utf-8') as source_file:
         similarity = markdown_to_html(source_file.read())
 
     for dirpath, dirnames, filenames in os.walk('templates'):
