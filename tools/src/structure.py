@@ -2,6 +2,9 @@ import re
 from pathlib import Path
 
 
+def get_type(file: Path) -> str:
+    return re.match("([0-9]{3}_)*[0-9]{3}_([A-Z]{2,9})", file.name).group(2)
+
 def get_section(file: Path) -> str:
     return ".".join([str(item).lstrip("0") for item in re.findall("(?<!_)([0-9]{3}|[0-9]{2}[A-Z])(?!_[A-Z])", file.resolve().__str__())])
 

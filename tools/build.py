@@ -93,6 +93,7 @@ def process_file(file: Path, target_type: str, loa: list[str], out: io.TextIOWra
         sections: A dictionary of section names to file paths.
     """
     file_loa = ''
+    file_type = structure.get_type(file)
     section = structure.get_section(file)
 
     with open(file, 'r', encoding="utf-8") as f:
@@ -142,9 +143,9 @@ def process_file(file: Path, target_type: str, loa: list[str], out: io.TextIOWra
             # Check if this line defines a requirement
             r = re.fullmatch("\s+\[([0-9]{3})\]\s([^$]+)", line)
             if r != None:
-                id = f"{target_type}-{section}-{r.group(1)}"
+                id = f"{file_type}-{section}-{r.group(1)}"
                 requirement = r.group(2).strip()
-                req.writerow([id, section, file_loa, target_type, requirement])
+                req.writerow([id, section, file_loa, file_type, requirement])
 
                 out.write("\t[{}] {}\n".format(id, requirement))
                 continue

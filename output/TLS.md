@@ -196,7 +196,7 @@ I do also participate :-)
 
 This is a description of a requirement.
 
-	[TLS-1.3-001] This is the actual requirement
+	[BR-1.3-001] This is the actual requirement
 
 ::: layer-800
 The layers 800 to 899 are reserved for Auditors and Assessors.
