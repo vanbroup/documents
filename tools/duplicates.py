@@ -3,7 +3,7 @@ import argparse
 import string
 import difflib
 from pathlib import Path
-from src import rfc3247
+from src import rfc3647
 #from transformers import pipeline
 
 def get_section(file: Path) -> str:
@@ -89,12 +89,12 @@ def main():
                     if source_title.lower() != copy_title.lower():
                         diff_description = "Title doesn not match BRs `{}`".format(source_title)
                                         
-                    rfc3247_title = rfc3247.get_section(section)
-                    rfc3247_clean_title = rfc3247.get_clean_section(section)
-                    if rfc3247_title and not copy_title.lower().endswith(rfc3247_title.lower()) and not copy_title.lower().endswith(rfc3247_clean_title.lower()):
+                    rfc3647_title = rfc3647.get_section(section)
+                    rfc3647_clean_title = rfc3647.get_clean_section(section)
+                    if rfc3647_title and not copy_title.lower().endswith(rfc3647_title.lower()) and not copy_title.lower().endswith(rfc3647_clean_title.lower()):
                         if diff_description != "":
                             diff_description += "; "
-                        diff_description += "Title does not match RFC 3247 `{}`".format(rfc3247_title)    
+                        diff_description += "Title does not match RFC 3647 `{}`".format(rfc3647_title)    
                     
                     # Use difflib to compare the cleaned texts
                     similarity_percentage, _ = compare_texts(source, copy)
