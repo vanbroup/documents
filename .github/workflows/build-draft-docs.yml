@@ -19,7 +19,8 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.base.sha || github.event.push.before }}
           path: old/
-      - uses: docker://ghcr.io/cabforum/build-guidelines-action:2.1.0
+      - uses: docker://ghcr.io/vanbroup/build-guidelines-action:sha-1c0ddd16
+        #uses: docker://ghcr.io/cabforum/build-guidelines-action:2.1.0
         id: build_doc
         with:
           markdown_file: docs/${{ matrix.document }}.md
